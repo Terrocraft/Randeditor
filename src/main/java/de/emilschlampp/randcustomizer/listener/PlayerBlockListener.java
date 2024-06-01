@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 import org.checkerframework.checker.units.qual.C;
 
@@ -74,7 +75,7 @@ public class PlayerBlockListener implements Listener {
             try {
                 material = Material.valueOf(RandCustomizer.getInstance().getReplaceMaterials().getString(material.name()));
             } catch (Throwable throwable) {
-                player.sendMessage("§cUpsi, das sollte so nicht passieren. Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen.");
+                player.sendMessage("Â§cUpsi, das sollte so nicht passieren. Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen.");
                 return;
             }
         }
@@ -120,7 +121,7 @@ public class PlayerBlockListener implements Listener {
         if(!can) {
             return;
         }
-        String searchConfig = "worlds."+areaClicked.getWorldName()+".road.height";
+        String searchConfig = "worlds."+areaClicked.getWorldName()+".wall.height";
         if(PlotSquared.get().getWorldConfiguration().isInt(searchConfig)) {
             int roadHeight = PlotSquared.get().getWorldConfiguration().getInt(searchConfig);
             if(clicked.getY() < roadHeight || clicked.getY() > roadHeight+1) {
@@ -141,8 +142,21 @@ public class PlayerBlockListener implements Listener {
         }
         if(event.getClickedInventory() != null) {
             if(event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
-                return;
+                if(event.getView().getTopInventory().equals(event.getWhoClicked().getInventory())) {
+                    return;
+                }
             }
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryOpen(InventoryOpenEvent event) {
+        if(event.getInventory().equals(event.getPlayer().getInventory())) {
+            return;
+        }
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+            return;
         }
         event.setCancelled(true);
     }

@@ -67,13 +67,14 @@ public final class RandCustomizer extends JavaPlugin {
     }
 
     public void putPlayer(Player player) {
+        player.closeInventory();
         RandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
         playerInventory.put(player.getUniqueId(), player.getInventory().getContents());
         try {
             player.getInventory().setContents(config.getList("items", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
         } catch (Throwable throwable) {
             resetPlayer(player);
-            player.sendMessage("§cUpsi, das sollte so nicht passieren. Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen.");
+            player.sendMessage("Â§cUpsi, das sollte so nicht passieren. Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen.");
             return;
         }
     }
