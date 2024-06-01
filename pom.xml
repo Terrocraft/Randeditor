@@ -76,7 +76,7 @@
             <artifactId>plotsquared-bukkit</artifactId>
             <version>7.3.8</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/plotsquared-bukkit-7.3.8-Premium.jar</systemPath>
+            <systemPath>${project.basedir}/lib/plotsquared-bukkit-7.3.7-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
