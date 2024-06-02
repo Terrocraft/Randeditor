@@ -13,6 +13,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
@@ -165,6 +166,14 @@ public class PlayerBlockListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityPickupItemEvent(EntityPickupItemEvent event) {
+        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getEntity().getUniqueId())) {
             return;
         }
         event.setCancelled(true);
