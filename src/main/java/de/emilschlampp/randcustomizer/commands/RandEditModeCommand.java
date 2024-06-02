@@ -2,7 +2,7 @@ package de.emilschlampp.randcustomizer.commands;
 
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import de.emilschlampp.randcustomizer.RandCustomizer;
+import de.emilschlampp.randcustomizer.KingMineRandCustomizer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -26,13 +26,13 @@ public class RandEditModeCommand implements TabExecutor {
                     player.sendMessage("§6Rand-Edit-Mode: §cKeine Berechtigung.");
                     return true;
                 }
-                RandCustomizer.getInstance().saveItems(player.getInventory().getContents());
+                KingMineRandCustomizer.getInstance().saveItems(player.getInventory().getContents());
                 player.sendMessage("§6Rand-Edit-Mode: §aErfolgreich!");
                 return true;
             }
         }
-        if(RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
-            RandCustomizer.getInstance().resetPlayer(player);
+        if(KingMineRandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
+            KingMineRandCustomizer.getInstance().resetPlayer(player);
             player.sendMessage("§6Rand-Edit-Mode: §cinaktiv");
         } else {
             PlotPlayer plotPlayer = PlotPlayer.from(player);
@@ -45,7 +45,7 @@ public class RandEditModeCommand implements TabExecutor {
                 player.sendMessage("§6Rand-Edit-Mode: §cKeine Berechtigung.");
                 return true;
             }
-            RandCustomizer.getInstance().putPlayer(player);
+            KingMineRandCustomizer.getInstance().putPlayer(player);
             player.sendMessage("§6Rand-Edit-Mode: §aaktiv");
         }
         return true;

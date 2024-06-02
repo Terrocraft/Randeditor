@@ -1,6 +1,6 @@
 package de.emilschlampp.randcustomizer.util;
 
-import de.emilschlampp.randcustomizer.RandCustomizer;
+import de.emilschlampp.randcustomizer.KingMineRandCustomizer;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class ConfigUtil {
             return cachemap.get(name);
         }
 
-        SConfig sConfig = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), name+".yml"), name);
+        SConfig sConfig = new SConfig(new File(KingMineRandCustomizer.getInstance().getDataFolder(), name+".yml"), name);
         cachemap.put(name, sConfig);
         return sConfig;
     }

@@ -12,8 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public final class RandCustomizer extends JavaPlugin {
-    private static RandCustomizer instance;
+public final class KingMineRandCustomizer extends JavaPlugin {
+    private static KingMineRandCustomizer instance;
 
     private final List<UUID> inEditMode = new ArrayList<>();
     private final Map<UUID, ItemStack[]> playerInventory = new HashMap<>();
@@ -57,7 +57,7 @@ public final class RandCustomizer extends JavaPlugin {
     }
 
     public void resetPlayer(Player player) {
-        while (RandCustomizer.getInstance().getInEditMode().remove(player.getUniqueId()));
+        while (KingMineRandCustomizer.getInstance().getInEditMode().remove(player.getUniqueId()));
         if(!playerInventory.containsKey(player.getUniqueId())) {
             return;
         }
@@ -68,7 +68,7 @@ public final class RandCustomizer extends JavaPlugin {
 
     public void putPlayer(Player player) {
         player.closeInventory();
-        RandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
+        KingMineRandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
         playerInventory.put(player.getUniqueId(), player.getInventory().getContents());
         try {
             player.getInventory().setContents(config.getList("items", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
@@ -97,7 +97,7 @@ public final class RandCustomizer extends JavaPlugin {
         return config;
     }
 
-    public static RandCustomizer getInstance() {
+    public static KingMineRandCustomizer getInstance() {
         return instance;
     }
 }
