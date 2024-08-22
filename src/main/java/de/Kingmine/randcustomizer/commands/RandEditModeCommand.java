@@ -1,8 +1,8 @@
-package de.emilschlampp.randcustomizer.commands;
+package de.Kingmine.randcustomizer.commands;
 
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import de.emilschlampp.randcustomizer.KingMineRandCustomizer;
+import de.Kingmine.randcustomizer.KingMineRandCustomizer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;

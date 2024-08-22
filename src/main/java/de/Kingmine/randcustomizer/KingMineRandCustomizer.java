@@ -1,9 +1,9 @@
-package de.emilschlampp.randcustomizer;
+package de.Kingmine.randcustomizer;
 
-import de.emilschlampp.randcustomizer.commands.RandEditModeCommand;
-import de.emilschlampp.randcustomizer.listener.PlayerBlockListener;
-import de.emilschlampp.randcustomizer.util.ConfigUtil;
-import de.emilschlampp.randcustomizer.util.SConfig;
+import de.Kingmine.randcustomizer.commands.RandEditModeCommand;
+import de.Kingmine.randcustomizer.listener.PlayerBlockListener;
+import de.Kingmine.randcustomizer.util.ConfigUtil;
+import de.Kingmine.randcustomizer.util.SConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

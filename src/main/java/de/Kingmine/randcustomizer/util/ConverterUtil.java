@@ -1,4 +1,4 @@
-package de.emilschlampp.randcustomizer.util;
+package de.Kingmine.randcustomizer.util;
 
 import com.plotsquared.core.location.Location;
 

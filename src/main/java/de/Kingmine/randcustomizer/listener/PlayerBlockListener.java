@@ -1,11 +1,11 @@
-package de.emilschlampp.randcustomizer.listener;
+package de.Kingmine.randcustomizer.listener;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
-import de.emilschlampp.randcustomizer.KingMineRandCustomizer;
-import de.emilschlampp.randcustomizer.util.ConverterUtil;
+import de.Kingmine.randcustomizer.KingMineRandCustomizer;
+import de.Kingmine.randcustomizer.util.ConverterUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,7 +49,7 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        onPlayerMove(event); //TODO 01.06.2024 Redirect it cleaner
+        onPlayerMove(event);
     }
 
     @EventHandler
