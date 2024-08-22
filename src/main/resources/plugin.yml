@@ -1,6 +1,6 @@
 name: KingMineRandCustomizer
 version: '${project.version}'
-main: de.emilschlampp.randcustomizer.KingMineRandCustomizer
+main: de.Kingmine.randcustomizer.KingMineRandCustomizer
 api-version: '1.20'
 description: This is the Plugin for Kingmine Citybuild server.
 authors:
