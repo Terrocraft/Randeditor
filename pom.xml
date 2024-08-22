@@ -6,7 +6,7 @@
 
     <groupId>de.Kingmine</groupId>
     <artifactId>RandCustomizer</artifactId>
-    <version>1.0</version>
+    <version>1.0-Alpha</version>
     <packaging>jar</packaging>
 
     <name>KingMineRandCustomizer</name>
