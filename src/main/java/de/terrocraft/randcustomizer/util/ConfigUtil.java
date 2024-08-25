@@ -1,6 +1,6 @@
-package de.Kingmine.randcustomizer.util;
+package de.terrocraft.randcustomizer.util;
 
-import de.Kingmine.randcustomizer.KingMineRandCustomizer;
+import de.terrocraft.randcustomizer.RandCustomizer;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class ConfigUtil {
             return cachemap.get(name);
         }
 
-        SConfig sConfig = new SConfig(new File(KingMineRandCustomizer.getInstance().getDataFolder(), name+".yml"), name);
+        SConfig sConfig = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), name+".yml"), name);
         cachemap.put(name, sConfig);
         return sConfig;
     }

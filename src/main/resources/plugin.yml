@@ -1,6 +1,6 @@
-name: KingMineRandCustomizer
+name: RandCustomizer
 version: '${project.version}'
-main: de.Kingmine.randcustomizer.KingMineRandCustomizer
+main: de.terrocraft.randcustomizer.RandCustomizer
 api-version: '1.20'
 description: This is the Plugin for Kingmine Citybuild Server.
 authors:

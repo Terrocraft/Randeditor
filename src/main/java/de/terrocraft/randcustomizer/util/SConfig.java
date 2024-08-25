@@ -1,4 +1,4 @@
-package de.Kingmine.randcustomizer.util;
+package de.terrocraft.randcustomizer.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;

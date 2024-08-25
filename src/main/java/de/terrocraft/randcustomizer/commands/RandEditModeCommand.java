@@ -1,8 +1,8 @@
-package de.Kingmine.randcustomizer.commands;
+package de.terrocraft.randcustomizer.commands;
 
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import de.Kingmine.randcustomizer.KingMineRandCustomizer;
+import de.terrocraft.randcustomizer.RandCustomizer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -16,37 +16,37 @@ public class RandEditModeCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("§cDu musst ein Spieler sein, um diese Aktion auszuführen.");
+            sender.sendMessage("§cYou dont a Player.");
             return true;
         }
         Player player = ((Player) sender);
         if(args.length == 1) {
             if(args[0].equals("set")) {
                 if(!sender.hasPermission("randcustomizer.randeditmode.set")) {
-                    player.sendMessage("§6Rand-Edit-Mode: §cKeine Berechtigung.");
+                    player.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
-                KingMineRandCustomizer.getInstance().saveItems(player.getInventory().getContents());
-                player.sendMessage("§6Rand-Edit-Mode: §aErfolgreich!");
+                RandCustomizer.getInstance().saveItems(player.getInventory().getContents());
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.adminmode.saved"));
                 return true;
             }
         }
-        if(KingMineRandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
-            KingMineRandCustomizer.getInstance().resetPlayer(player);
-            player.sendMessage("§6Rand-Edit-Mode: §cinaktiv");
+        if(RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
+            RandCustomizer.getInstance().resetPlayer(player);
+            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.inactive"));
         } else {
             PlotPlayer plotPlayer = PlotPlayer.from(player);
             Plot plot = plotPlayer.getCurrentPlot();
             if(plot == null) {
-                player.sendMessage("§6Rand-Edit-Mode: §cDu stehst nicht auf einem Plot.");
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
                 return true;
             }
             if(!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
-                player.sendMessage("§6Rand-Edit-Mode: §cKeine Berechtigung.");
+                player.sendMessage(RandCustomizer.noperm);
                 return true;
             }
-            KingMineRandCustomizer.getInstance().putPlayer(player);
-            player.sendMessage("§6Rand-Edit-Mode: §aaktiv");
+            RandCustomizer.getInstance().putPlayer(player);
+            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.active"));
         }
         return true;
     }

@@ -1,11 +1,11 @@
-package de.Kingmine.randcustomizer.listener;
+package de.terrocraft.randcustomizer.listener;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
-import de.Kingmine.randcustomizer.KingMineRandCustomizer;
-import de.Kingmine.randcustomizer.util.ConverterUtil;
+import de.terrocraft.randcustomizer.RandCustomizer;
+import de.terrocraft.randcustomizer.util.ConverterUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,18 +32,18 @@ public class PlayerBlockListener implements Listener {
         if(event.getFrom().getBlock().equals(event.getTo().getBlock())) {
             return;
         }
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
         Player player = event.getPlayer();
         PlotPlayer plotPlayer = PlotPlayer.from(player);
         Plot plot = plotPlayer.getCurrentPlot();
         if(plot == null) {
-            KingMineRandCustomizer.getInstance().resetPlayer(player);
+            RandCustomizer.getInstance().resetPlayer(player);
             return;
         }
         if(!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
-            KingMineRandCustomizer.getInstance().resetPlayer(player);
+            RandCustomizer.getInstance().resetPlayer(player);
         }
     }
 
@@ -54,7 +54,7 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
         if(event.getClickedBlock() == null) {
@@ -67,11 +67,11 @@ public class PlayerBlockListener implements Listener {
         Material material = Material.AIR;
         material = event.getItem().getType();
 
-        if(KingMineRandCustomizer.getInstance().getReplaceMaterials().contains(material.name())) {
+        if(RandCustomizer.getInstance().getReplaceMaterials().contains(material.name())) {
             try {
-                material = Material.valueOf(KingMineRandCustomizer.getInstance().getReplaceMaterials().getString(material.name()));
+                material = Material.valueOf(RandCustomizer.getInstance().getReplaceMaterials().getString(material.name()));
             } catch (Throwable throwable) {
-                player.sendMessage("Â§cUpsi, das sollte so nicht passieren. Ein unerwarteter Fehler ist aufgetreten und der Vorgang wurde abgebrochen.");
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
                 return;
             }
         }
@@ -133,7 +133,7 @@ public class PlayerBlockListener implements Listener {
         if(event.getInventory().equals(event.getWhoClicked().getInventory())) {
             return;
         }
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
             return;
         }
         if(event.getClickedInventory() != null) {
@@ -149,7 +149,7 @@ public class PlayerBlockListener implements Listener {
         if(event.getInventory().equals(event.getPlayer().getInventory())) {
             return;
         }
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
         event.setCancelled(true);
@@ -157,15 +157,15 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
-        KingMineRandCustomizer.getInstance().resetPlayer(event.getPlayer());
+        RandCustomizer.getInstance().resetPlayer(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
         event.setCancelled(true);
@@ -173,7 +173,7 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onEntityPickupItemEvent(EntityPickupItemEvent event) {
-        if(!KingMineRandCustomizer.getInstance().getInEditMode().contains(event.getEntity().getUniqueId())) {
+        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getEntity().getUniqueId())) {
             return;
         }
         event.setCancelled(true);
