@@ -4,8 +4,10 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
+import com.sk89q.worldedit.math.BlockVector3;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
+import de.terrocraft.randcustomizer.util.PlotSquaredUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,6 +20,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PlayerBlockListener implements Listener {
     public static final BlockFace[] CHECK = new BlockFace[]{
             BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST,
@@ -26,26 +31,48 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if(event.getTo() == null) {
+        if (event.getTo() == null) {
             return;
         }
-        if(event.getFrom().getBlock().equals(event.getTo().getBlock())) {
+        if (event.getFrom().getBlock().equals(event.getTo().getBlock())) {
             return;
         }
-        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if (!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
+
         Player player = event.getPlayer();
-        PlotPlayer plotPlayer = PlotPlayer.from(player);
+        PlotPlayer<?> plotPlayer = PlotPlayer.from(player);
         Plot plot = plotPlayer.getCurrentPlot();
-        if(plot == null) {
+
+        if (plot == null) {
             RandCustomizer.getInstance().resetPlayer(player);
             return;
         }
-        if(!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
+
+        if (!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
+            RandCustomizer.getInstance().resetPlayer(player);
+            return;
+        }
+
+        com.plotsquared.core.location.Location[] corners = plot.getCorners();
+
+        int minX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).min().orElseThrow();
+        int minZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).min().orElseThrow();
+        int maxX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).max().orElseThrow();
+        int maxZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).max().orElseThrow();
+
+        // Create locations for the minimum and maximum points, expanded by 1 block
+        Location min = new Location(player.getWorld(), minX - 1, 0, minZ - 1);
+        Location max = new Location(player.getWorld(), maxX + 1, player.getWorld().getMaxHeight(), maxZ + 1);
+
+        Location playerLocation = player.getLocation();
+
+        if (!PlotSquaredUtil.isLocationInRange(playerLocation, min, max)) {
             RandCustomizer.getInstance().resetPlayer(player);
         }
     }
+
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
@@ -178,4 +205,6 @@ public class PlayerBlockListener implements Listener {
         }
         event.setCancelled(true);
     }
+
+
 }
