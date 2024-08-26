@@ -10,9 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class RandEditModeCommand implements TabExecutor {
     @Override
@@ -29,7 +27,7 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
                 RandCustomizer.getInstance().saveItems(player.getInventory().getContents());
-                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.adminmode.saved"));
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.saved"));
                 return true;
             }
         }
@@ -50,11 +48,10 @@ public class RandEditModeCommand implements TabExecutor {
             }
             RandCustomizer.setPlotForPlayer(player.getUniqueId(), plot);
             RandCustomizer.getInstance().putPlayer(player);
-            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.active"));
+            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.active"));
         }
         return true;
     }
-
 
         @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {

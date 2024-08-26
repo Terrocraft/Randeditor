@@ -1,6 +1,5 @@
 package de.terrocraft.randcustomizer;
 
-import com.plotsquared.core.location.Location;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
@@ -14,9 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public final class RandCustomizer extends JavaPlugin {
+
     private static RandCustomizer instance;
 
     private final List<UUID> inEditMode = new ArrayList<>();
@@ -50,7 +49,6 @@ public final class RandCustomizer extends JavaPlugin {
         setConfig();
         setReplaceMaterials();
 
-
         if(!BlockPermissions.getFile().isFile()) {
             BlockPermissions.setDefault("Blocks." + Material.COMMAND_BLOCK.name(), "randcustomizer.Block.Command_Block");
         }
@@ -73,14 +71,12 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("no-perm", "§4You don't have permission to do that.");
             language.setDefault("noblock-perm", "§4You don't have permission to this Block.");
             language.setDefault("fehler.noplot", "§4You are not standing on a Plot.");
-            language.setDefault("fehler.other", "§4Error, send a massage to a Admin!");
-            language.setDefault("massage.editmode.active", "§2Editmode Active!");
-            language.setDefault("massage.editmode.inactive", "§4Editmode Inactive!");
-            language.setDefault("massage.adminmode.saved", "§2Inventory Saved!");
+            language.setDefault("fehler.other", "§4Error, send a message to a Admin!");
+            language.setDefault("message.editmode.active", "§2Editmode Active!");
+            language.setDefault("message.editmode.inactive", "§4Editmode Inactive!");
+            language.setDefault("message.adminmode.saved", "§2Inventory Saved!");
         }
     }
-
-
 
     public void setConfig(){
         if(!config.getFile().isFile()) {
@@ -119,7 +115,7 @@ public final class RandCustomizer extends JavaPlugin {
         playerInventory.remove(player.getUniqueId());
         player.saveData();
         playerPlot.remove(player.getUniqueId());
-        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.inactive"));
+        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.inactive"));
         if (playerInventory.containsKey(player.getUniqueId())) {
             player.setFlying(false);
             player.setAllowFlight(false);
@@ -156,7 +152,6 @@ public final class RandCustomizer extends JavaPlugin {
     public static Plot getPlotForPlayer(UUID playerId) {
         return playerPlot.get(playerId);
     }
-
 
     public Map<UUID, ItemStack[]> getPlayerInventory() {
         return playerInventory;

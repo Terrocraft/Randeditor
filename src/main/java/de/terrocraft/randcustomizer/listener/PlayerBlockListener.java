@@ -17,8 +17,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class PlayerBlockListener implements Listener {
@@ -63,13 +61,10 @@ public class PlayerBlockListener implements Listener {
 
         int radius = RandCustomizer.config.getInt("radius-around-plot") - 1;
 
-
-
         minX -= radius;
         maxX += radius;
         minZ -= radius;
         maxZ += radius;
-
 
         Location playerLocation = player.getLocation();
         int playerX = playerLocation.getBlockX();
@@ -79,10 +74,6 @@ public class PlayerBlockListener implements Listener {
             RandCustomizer.getInstance().resetPlayer(player);
         }
     }
-
-
-
-
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
@@ -180,7 +171,6 @@ public class PlayerBlockListener implements Listener {
         if (y < roadHeight - roadEditHeightBottom || y > roadHeight + roadEditHeightTop) {
             return;
         }
-
 
         clicked.setType(material, false);
     }
