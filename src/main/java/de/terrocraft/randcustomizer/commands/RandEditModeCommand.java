@@ -24,6 +24,9 @@ public class RandEditModeCommand implements TabExecutor {
             return true;
         }
         Player player = ((Player) sender);
+
+        //-----------------------------SET-------------------------------------------------
+
         if (args.length == 1) {
             if (args[0].equals("save")) {
                 if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
@@ -58,12 +61,36 @@ public class RandEditModeCommand implements TabExecutor {
             player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.active"));
         }
         return true;
+    }*/
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("edit")) {
+                if (!player.hasPermission("randcustomizer.randeditmode.set")) {
+                    player.sendMessage(RandCustomizer.noperm);
+                    return true;
+                }
+                RandCustomizer.getInstance().putPlayer(player);
+                giveSearchItem(player);
+                return true;
+            }
+        }
+        return true;
     }
 
+    private void giveSearchItem(Player player) {
+        ItemStack searchItem = new ItemStack(Material.PAPER);
+        ItemMeta meta = searchItem.getItemMeta();
+        meta.setDisplayName("§aSearch");
+        searchItem.setItemMeta(meta);
+        player.getInventory().setItem(0, searchItem);  // Setze das Such-Item in Slot 0
+        player.sendMessage("§aYou can now search for items by typing their name in chat!");
+    }
+
+
+        //---------------------------------TABCOMPLETE---------------------------------------
         @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.set")) {
-            return List.of("set");
+            return List.of("edit");
         }
         return new ArrayList<>();
     }
