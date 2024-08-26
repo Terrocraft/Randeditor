@@ -15,6 +15,7 @@ import java.util.List;
 public class RandEditModeCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+
         if (!(sender instanceof Player)) {
             sender.sendMessage("§cYou are not a Player.");
             return true;
@@ -31,7 +32,8 @@ public class RandEditModeCommand implements TabExecutor {
                 return true;
             }
         }
-        if(RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
+        //-----------------------------------EDITMODE----------------------------------------
+        if (RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
             RandCustomizer.getInstance().resetPlayer(player);
         } else {
             PlotPlayer<Player> plotPlayer = PlotPlayer.from(player);

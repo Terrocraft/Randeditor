@@ -20,6 +20,7 @@ public final class RandCustomizer extends JavaPlugin {
 
     private final List<UUID> inEditMode = new ArrayList<>();
     private final Map<UUID, ItemStack[]> playerInventory = new HashMap<>();
+    private final Map<UUID, ItemStack[]> adminInventory = new HashMap<>();
     private static final Map<UUID, Plot> playerPlot = new HashMap<>();
     private static final Map<UUID, Boolean> playerFly = new HashMap<>();
     public static SConfig config;
@@ -105,6 +106,11 @@ public final class RandCustomizer extends JavaPlugin {
 
     public List<UUID> getInEditMode() {
         return inEditMode;
+    }
+
+    public void saveAdminInventory(Player player) {
+        adminInventory.put(player.getUniqueId(), player.getInventory().getContents());
+        player.sendMessage(prefix + "message.admin.inventorysaved");
     }
 
     public void resetPlayer(Player player) {
