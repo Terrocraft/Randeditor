@@ -1,5 +1,7 @@
 package de.terrocraft.randcustomizer;
 
+import com.plotsquared.core.location.Location;
+import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
 import de.terrocraft.randcustomizer.util.ConfigUtil;
@@ -12,13 +14,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public final class RandCustomizer extends JavaPlugin {
     private static RandCustomizer instance;
 
     private final List<UUID> inEditMode = new ArrayList<>();
     private final Map<UUID, ItemStack[]> playerInventory = new HashMap<>();
-    private SConfig config;
+    private static final Map<UUID, Plot> playerPlot = new HashMap<>();
+    public static SConfig config;
+    public static SConfig materials;
     public static SConfig language;
     public static String prefix;
     public static String noperm;
@@ -32,21 +37,19 @@ public final class RandCustomizer extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
         config = ConfigUtil.getConfig("config");
+        materials = ConfigUtil.getConfig("materials");
         language = ConfigUtil.getConfig("language");
         replaceMaterials = ConfigUtil.getConfig("replace-materials");
         BlockPermissions = ConfigUtil.getConfig("BlockPermissions");
 
-        setlaguageconfig();
-        if(!replaceMaterials.getFile().isFile()) {
-            replaceMaterials.setDefault(Material.BARRIER.name(), Material.AIR.name());
-            replaceMaterials.setDefault(Material.WATER_BUCKET.name(), Material.WATER.name());
-            replaceMaterials.setDefault(Material.LAVA_BUCKET.name(), Material.LAVA.name());
-        }
+        setlanguage();
+        setConfig();
+        setReplaceMaterials();
+
 
         if(!BlockPermissions.getFile().isFile()) {
             BlockPermissions.setDefault("Blocks." + Material.COMMAND_BLOCK.name(), "randcustomizer.Block.Command_Block");
@@ -56,15 +59,15 @@ public final class RandCustomizer extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerBlockListener(), this);
 
-
         prefix = language.getString("prefix");
-        noperm = language.getString("no-perm");
-
+      
+        noperm = prefix + language.getString("no-perm");
         int pluginId = 23191;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, pluginId);
+
     }
 
-    public static void setlaguageconfig(){
+    public void setlanguage(){
         if(!language.getFile().isFile()) {
             language.setDefault("prefix", "§6Rand-Edit-Mode: ");
             language.setDefault("no-perm", "§4You don't have permission to do that.");
@@ -77,10 +80,26 @@ public final class RandCustomizer extends JavaPlugin {
         }
     }
 
+
+
+    public void setConfig(){
+        if(!config.getFile().isFile()) {
+            config.setDefault("radius-around-plot", 2);
+            config.setDefault("road-edit-height-top", 0);
+            config.setDefault("road-edit-height-bottom", 1);
+        }
+    }
+
+    public void setReplaceMaterials() {
+        if(!replaceMaterials.getFile().isFile()) {
+            replaceMaterials.setDefault(Material.BARRIER.name(), Material.AIR.name());
+            replaceMaterials.setDefault(Material.WATER_BUCKET.name(), Material.WATER.name());
+            replaceMaterials.setDefault(Material.LAVA_BUCKET.name(), Material.LAVA.name());
+        }
+    }
+
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             resetPlayer(onlinePlayer);
         }
@@ -98,6 +117,8 @@ public final class RandCustomizer extends JavaPlugin {
         player.getInventory().setContents(playerInventory.get(player.getUniqueId()));
         playerInventory.remove(player.getUniqueId());
         player.saveData();
+        playerPlot.remove(player.getUniqueId());
+        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.inactive"));
     }
 
     public void putPlayer(Player player) {
@@ -105,7 +126,7 @@ public final class RandCustomizer extends JavaPlugin {
         RandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
         playerInventory.put(player.getUniqueId(), player.getInventory().getContents());
         try {
-            player.getInventory().setContents(config.getList("items", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
+            player.getInventory().setContents(materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
         } catch (Throwable throwable) {
             resetPlayer(player);
             player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
@@ -114,9 +135,18 @@ public final class RandCustomizer extends JavaPlugin {
     }
 
     public void saveItems(ItemStack[] items) {
-        config.set("items", Arrays.asList(items));
-        config.save();
+        materials.set("materials", Arrays.asList(items));
+        materials.save();
     }
+
+    public static void setPlotForPlayer(UUID playerId, Plot plot) {
+        playerPlot.put(playerId, plot);
+    }
+
+    public static Plot getPlotForPlayer(UUID playerId) {
+        return playerPlot.get(playerId);
+    }
+
 
     public Map<UUID, ItemStack[]> getPlayerInventory() {
         return playerInventory;

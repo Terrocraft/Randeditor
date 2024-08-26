@@ -3,8 +3,6 @@ package de.terrocraft.randcustomizer.commands;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
-import de.terrocraft.randcustomizer.util.PlotSquaredUtil;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -15,19 +13,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static de.terrocraft.randcustomizer.util.PlotSquaredUtil.isLocationInRange;
-
 public class RandEditModeCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("§cYou dont a Player.");
             return true;
         }
         Player player = ((Player) sender);
-        if(args.length == 1) {
-            if(args[0].equals("set")) {
-                if(!sender.hasPermission("randcustomizer.randeditmode.set")) {
+        if (args.length == 1) {
+            if (args[0].equals("set")) {
+                if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
                     player.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
@@ -38,27 +34,30 @@ public class RandEditModeCommand implements TabExecutor {
         }
         if(RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
             RandCustomizer.getInstance().resetPlayer(player);
-            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.inactive"));
         } else {
-            PlotPlayer plotPlayer = PlotPlayer.from(player);
+            PlotPlayer<Player> plotPlayer = PlotPlayer.from(player);
             Plot plot = plotPlayer.getCurrentPlot();
 
-            if (plot == null){
+            if (plot == null) {
+
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
                 return true;
             }
+
 
             if(!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
                 player.sendMessage(RandCustomizer.noperm);
                 return true;
             }
+            RandCustomizer.setPlotForPlayer(player.getUniqueId(), plot);
             RandCustomizer.getInstance().putPlayer(player);
             player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.active"));
         }
         return true;
     }
 
-    @Override
+
+        @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.set")) {
             return Arrays.asList("set");
