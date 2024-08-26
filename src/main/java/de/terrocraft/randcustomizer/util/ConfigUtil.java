@@ -10,11 +10,11 @@ public class ConfigUtil {
     static Map<String, SConfig> cachemap = new HashMap<>();
 
     public static SConfig getConfig(String name) {
-        if(cachemap.get(name) != null) {
+        if (cachemap.get(name) != null) {
             return cachemap.get(name);
         }
 
-        SConfig sConfig = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), name+".yml"), name);
+        SConfig sConfig = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), name + ".yml"), name);
         cachemap.put(name, sConfig);
         return sConfig;
     }

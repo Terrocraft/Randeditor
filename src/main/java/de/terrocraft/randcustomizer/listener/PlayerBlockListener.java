@@ -8,6 +8,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
 import de.terrocraft.randcustomizer.util.PlotSquaredUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,47 +32,58 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (event.getTo() == null) {
-            return;
-        }
-        if (event.getFrom().getBlock().equals(event.getTo().getBlock())) {
-            return;
-        }
-        if (!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+        if (event.getTo() == null
+                || event.getFrom().getBlock().equals(event.getTo().getBlock())
+                || !RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
 
         Player player = event.getPlayer();
-        PlotPlayer<?> plotPlayer = PlotPlayer.from(player);
-        Plot plot = plotPlayer.getCurrentPlot();
+        Plot plot = RandCustomizer.getPlotForPlayer(player.getUniqueId());
 
-        if (plot == null) {
-            RandCustomizer.getInstance().resetPlayer(player);
-            return;
-        }
-
-        if (!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
-            RandCustomizer.getInstance().resetPlayer(player);
+        if (plot == null || plot.getCorners() == null) {
             return;
         }
 
         com.plotsquared.core.location.Location[] corners = plot.getCorners();
+        if (corners.length == 0) {
+            return;
+        }
 
-        int minX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).min().orElseThrow();
-        int minZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).min().orElseThrow();
-        int maxX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).max().orElseThrow();
-        int maxZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).max().orElseThrow();
+        int minX = Integer.MAX_VALUE;
+        int minZ = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxZ = Integer.MIN_VALUE;
 
-        // Create locations for the minimum and maximum points, expanded by 1 block
-        Location min = new Location(player.getWorld(), minX - 1, 0, minZ - 1);
-        Location max = new Location(player.getWorld(), maxX + 1, player.getWorld().getMaxHeight(), maxZ + 1);
+        for (com.plotsquared.core.location.Location corner : corners) {
+            int x = corner.getX();
+            int z = corner.getZ();
+            if (x < minX) minX = x;
+            if (z < minZ) minZ = z;
+            if (x > maxX) maxX = x;
+            if (z > maxZ) maxZ = z;
+        }
+
+        int radius = RandCustomizer.config.getInt("radius-around-plot") - 1;
+
+
+        minX -= radius;
+        maxX += radius;
+        minZ -= radius;
+        maxZ += radius;
+
 
         Location playerLocation = player.getLocation();
+        int playerX = playerLocation.getBlockX();
+        int playerZ = playerLocation.getBlockZ();
 
-        if (!PlotSquaredUtil.isLocationInRange(playerLocation, min, max)) {
+        if (playerX < minX || playerX > maxX || playerZ < minZ || playerZ > maxZ) {
             RandCustomizer.getInstance().resetPlayer(player);
         }
     }
+
+
+
 
 
     @EventHandler
@@ -144,13 +156,24 @@ public class PlayerBlockListener implements Listener {
         if(!can) {
             return;
         }
-        String searchConfig = "worlds."+areaClicked.getWorldName()+".wall.height";
-        if(PlotSquared.get().getWorldConfiguration().isInt(searchConfig)) {
-            int roadHeight = PlotSquared.get().getWorldConfiguration().getInt(searchConfig);
-            if(clicked.getY() < roadHeight || clicked.getY() > roadHeight+1) {
-                return;
-            }
+        String searchConfig = "worlds." + areaClicked.getWorldName() + ".wall.height";
+        int roadHeight = 0;
+
+        if (PlotSquared.get().getWorldConfiguration().isInt(searchConfig)) {
+            roadHeight = PlotSquared.get().getWorldConfiguration().getInt(searchConfig);
+        } else {
+            RandCustomizer.getInstance().getLogger().warning("No valid road height found for configuration path: " + searchConfig);
+            return;
         }
+
+        int roadEditHeightBottom = RandCustomizer.config.getInt("road-edit-height-bottom");
+        int roadEditHeightTop = RandCustomizer.config.getInt("road-edit-height-top");
+        int y = clicked.getY();
+
+        if (y < roadHeight + roadEditHeightBottom || y > roadHeight + roadEditHeightTop) {
+            return;
+        }
+
 
         clicked.setType(material, false);
     }
