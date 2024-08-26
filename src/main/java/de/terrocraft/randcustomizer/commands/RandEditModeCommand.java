@@ -3,10 +3,13 @@ package de.terrocraft.randcustomizer.commands;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ public class RandEditModeCommand implements TabExecutor {
         }
         Player player = ((Player) sender);
         if (args.length == 1) {
-            if (args[0].equals("set")) {
+            if (args[0].equals("save")) {
                 if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
                     player.sendMessage(RandCustomizer.noperm);
                     return true;
@@ -32,6 +35,7 @@ public class RandEditModeCommand implements TabExecutor {
                 return true;
             }
         }
+        /*
         //-----------------------------------EDITMODE----------------------------------------
         if (RandCustomizer.getInstance().getInEditMode().contains(player.getUniqueId())) {
             RandCustomizer.getInstance().resetPlayer(player);

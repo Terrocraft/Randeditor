@@ -199,6 +199,11 @@ public class PlayerBlockListener implements Listener {
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
+
+        if (event.getPlayer().hasPermission("randcustomizer.bypass")) {
+            return;
+        }
+
         event.setCancelled(true);
     }
 

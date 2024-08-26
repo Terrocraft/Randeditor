@@ -3,6 +3,7 @@ package de.terrocraft.randcustomizer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
+import de.terrocraft.randcustomizer.listener.RandEditModeListener;
 import de.terrocraft.randcustomizer.util.ConfigUtil;
 import de.terrocraft.randcustomizer.util.SConfig;
 import org.bstats.bukkit.Metrics;
@@ -58,6 +59,7 @@ public final class RandCustomizer extends JavaPlugin {
         Objects.requireNonNull(getCommand("randeditmode")).setExecutor(new RandEditModeCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerBlockListener(), this);
+        getServer().getPluginManager().registerEvents(new RandEditModeListener(this), this);
 
         prefix = language.getString("prefix");
       
