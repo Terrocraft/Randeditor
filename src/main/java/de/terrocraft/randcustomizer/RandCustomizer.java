@@ -21,6 +21,7 @@ public final class RandCustomizer extends JavaPlugin {
     public static SConfig language;
     public static String prefix;
     public static String noperm;
+    public static SConfig BlockPermissions;
     private SConfig replaceMaterials;
 
     @Override
@@ -37,12 +38,17 @@ public final class RandCustomizer extends JavaPlugin {
         config = ConfigUtil.getConfig("config");
         language = ConfigUtil.getConfig("language");
         replaceMaterials = ConfigUtil.getConfig("replace-materials");
+        replaceMaterials = ConfigUtil.getConfig("BlockPermissions");
 
         setlaguageconfig();
         if(!replaceMaterials.getFile().isFile()) {
             replaceMaterials.setDefault(Material.BARRIER.name(), Material.AIR.name());
             replaceMaterials.setDefault(Material.WATER_BUCKET.name(), Material.WATER.name());
             replaceMaterials.setDefault(Material.LAVA_BUCKET.name(), Material.LAVA.name());
+        }
+
+        if(!BlockPermissions.getFile().isFile()) {
+            BlockPermissions.setDefault("Blocks." + Material.COMMAND_BLOCK.name(), "randcustomizer.Block.Command_Block");
         }
 
         getCommand("randeditmode").setExecutor(new RandEditModeCommand());
@@ -58,6 +64,7 @@ public final class RandCustomizer extends JavaPlugin {
         if(!language.getFile().isFile()) {
             language.setDefault("prefix", "§6Rand-Edit-Mode: ");
             language.setDefault("no-perm", "§4You don't have permission to do that.");
+            language.setDefault("noblock-perm", "§4You don't have permission to this Block.");
             language.setDefault("fehler.noplot", "§4You are not standing on a Plot.");
             language.setDefault("fehler.other", "§4Error, send a massage to a Admin!");
             language.setDefault("massage.editmode.active", "§2Editmode Active!");

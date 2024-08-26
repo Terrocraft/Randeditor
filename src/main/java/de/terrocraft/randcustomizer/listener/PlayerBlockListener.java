@@ -22,6 +22,7 @@ import org.bukkit.event.player.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerBlockListener implements Listener {
     public static final BlockFace[] CHECK = new BlockFace[]{
@@ -101,6 +102,15 @@ public class PlayerBlockListener implements Listener {
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
                 return;
             }
+        }
+
+        if (RandCustomizer.BlockPermissions.contains("Block." + material.name())){
+           String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
+            assert permission != null;
+            if (!player.hasPermission(permission)){
+                player.sendMessage(Objects.requireNonNull(RandCustomizer.language.getString("noblock-perm")));
+               return;
+           }
         }
 
         event.setCancelled(true);
