@@ -55,7 +55,7 @@ public final class RandCustomizer extends JavaPlugin {
             BlockPermissions.setDefault("Blocks." + Material.COMMAND_BLOCK.name(), "randcustomizer.Block.Command_Block");
         }
 
-        getCommand("randeditmode").setExecutor(new RandEditModeCommand());
+        Objects.requireNonNull(getCommand("randeditmode")).setExecutor(new RandEditModeCommand());
 
         getServer().getPluginManager().registerEvents(new PlayerBlockListener(), this);
 

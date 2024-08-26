@@ -6,6 +6,7 @@ description: This is the Plugin for Kingmine Citybuild Server.
 authors:
   - Terrocraft
   - Schemil053
+  - LevinGamer8
 depend:
   - PlotSquared
   - WorldEdit

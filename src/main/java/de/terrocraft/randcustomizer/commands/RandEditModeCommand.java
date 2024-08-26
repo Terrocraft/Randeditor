@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +16,9 @@ import java.util.Objects;
 
 public class RandEditModeCommand implements TabExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cYou dont a Player.");
+            sender.sendMessage("§cYou are not a Player.");
             return true;
         }
         Player player = ((Player) sender);
@@ -39,11 +40,9 @@ public class RandEditModeCommand implements TabExecutor {
             Plot plot = plotPlayer.getCurrentPlot();
 
             if (plot == null) {
-
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
                 return true;
             }
-
 
             if(!plot.isOwner(player.getUniqueId()) && !player.hasPermission("randcustomizer.randeditmode.bypass")) {
                 player.sendMessage(RandCustomizer.noperm);
@@ -58,9 +57,9 @@ public class RandEditModeCommand implements TabExecutor {
 
 
         @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.set")) {
-            return Arrays.asList("set");
+            return List.of("set");
         }
         return new ArrayList<>();
     }
