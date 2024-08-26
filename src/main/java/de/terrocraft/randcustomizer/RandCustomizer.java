@@ -87,6 +87,7 @@ public final class RandCustomizer extends JavaPlugin {
             config.setDefault("radius-around-plot", 2);
             config.setDefault("road-edit-height-top", 0);
             config.setDefault("road-edit-height-bottom", 1);
+            config.setDefault("fly-in-editmode", false);
         }
     }
 
@@ -119,6 +120,10 @@ public final class RandCustomizer extends JavaPlugin {
         player.saveData();
         playerPlot.remove(player.getUniqueId());
         player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.inactive"));
+        if (playerInventory.containsKey(player.getUniqueId())) {
+            player.setFlying(false);
+            player.setAllowFlight(false);
+        }
     }
 
     public void putPlayer(Player player) {
@@ -131,6 +136,11 @@ public final class RandCustomizer extends JavaPlugin {
             resetPlayer(player);
             player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
             return;
+        }
+
+        if (config.getBoolean("fly-in-editmode")){
+            player.setFlying(true);
+            player.setAllowFlight(true);
         }
     }
 
