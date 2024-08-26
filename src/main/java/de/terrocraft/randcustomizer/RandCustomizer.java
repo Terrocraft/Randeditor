@@ -4,6 +4,7 @@ import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
 import de.terrocraft.randcustomizer.util.ConfigUtil;
 import de.terrocraft.randcustomizer.util.SConfig;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public final class RandCustomizer extends JavaPlugin {
         config = ConfigUtil.getConfig("config");
         language = ConfigUtil.getConfig("language");
         replaceMaterials = ConfigUtil.getConfig("replace-materials");
-        replaceMaterials = ConfigUtil.getConfig("BlockPermissions");
+        BlockPermissions = ConfigUtil.getConfig("BlockPermissions");
 
         setlaguageconfig();
         if(!replaceMaterials.getFile().isFile()) {
@@ -58,6 +59,9 @@ public final class RandCustomizer extends JavaPlugin {
 
         prefix = language.getString("prefix");
         noperm = language.getString("no-perm");
+
+        int pluginId = 23191;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 
     public static void setlaguageconfig(){

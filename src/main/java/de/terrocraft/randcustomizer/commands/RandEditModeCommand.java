@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static de.terrocraft.randcustomizer.util.PlotSquaredUtil.isLocationInRange;
 
@@ -42,20 +43,7 @@ public class RandEditModeCommand implements TabExecutor {
             PlotPlayer plotPlayer = PlotPlayer.from(player);
             Plot plot = plotPlayer.getCurrentPlot();
 
-            com.plotsquared.core.location.Location[] corners = plot.getCorners();
-
-            int minX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).min().orElseThrow();
-            int minZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).min().orElseThrow();
-            int maxX = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getX).max().orElseThrow();
-            int maxZ = Arrays.stream(corners).mapToInt(com.plotsquared.core.location.Location::getZ).max().orElseThrow();
-
-            // Create locations for the minimum and maximum points, expanded by 1 block
-            Location min = new Location(player.getWorld(), minX - 1, 0, minZ - 1);
-            Location max = new Location(player.getWorld(), maxX + 1, player.getWorld().getMaxHeight(), maxZ + 1);
-
-            Location playerLocation = player.getLocation();
-
-            if (!PlotSquaredUtil.isLocationInRange(playerLocation, min, max)) {
+            if (plot == null){
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
                 return true;
             }
