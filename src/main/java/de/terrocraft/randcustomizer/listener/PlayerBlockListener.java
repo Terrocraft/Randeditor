@@ -1,14 +1,10 @@
 package de.terrocraft.randcustomizer.listener;
 
 import com.plotsquared.core.PlotSquared;
-import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
-import com.sk89q.worldedit.math.BlockVector3;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
-import de.terrocraft.randcustomizer.util.PlotSquaredUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,9 +16,6 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class PlayerBlockListener implements Listener {
     public static final BlockFace[] CHECK = new BlockFace[]{
@@ -170,7 +163,7 @@ public class PlayerBlockListener implements Listener {
         int roadEditHeightTop = RandCustomizer.config.getInt("road-edit-height-top");
         int y = clicked.getY();
 
-        if (y < roadHeight + roadEditHeightBottom || y > roadHeight + roadEditHeightTop) {
+        if (y < roadHeight - roadEditHeightBottom || y > roadHeight + roadEditHeightTop) {
             return;
         }
 
