@@ -17,6 +17,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 public class PlayerBlockListener implements Listener {
     public static final BlockFace[] CHECK = new BlockFace[]{
             BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST,
@@ -58,6 +62,7 @@ public class PlayerBlockListener implements Listener {
         }
 
         int radius = RandCustomizer.config.getInt("radius-around-plot") - 1;
+
 
 
         minX -= radius;
@@ -106,6 +111,15 @@ public class PlayerBlockListener implements Listener {
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
                 return;
             }
+        }
+
+        if (RandCustomizer.BlockPermissions.contains("Block." + material.name())){
+           String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
+            assert permission != null;
+            if (!player.hasPermission(permission)){
+                player.sendMessage(Objects.requireNonNull(RandCustomizer.language.getString("noblock-perm")));
+               return;
+           }
         }
 
         event.setCancelled(true);

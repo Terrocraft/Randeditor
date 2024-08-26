@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class RandEditModeCommand implements TabExecutor {
     @Override
@@ -38,6 +39,7 @@ public class RandEditModeCommand implements TabExecutor {
             Plot plot = plotPlayer.getCurrentPlot();
 
             if (plot == null) {
+
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
                 return true;
             }
