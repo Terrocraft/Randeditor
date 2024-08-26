@@ -2,7 +2,7 @@ name: RandCustomizer
 version: '${project.version}'
 main: de.terrocraft.randcustomizer.RandCustomizer
 api-version: '1.20'
-description: This is the Plugin for Kingmine Citybuild Server.
+description: This is a Plugin for CityBuild Servers with Plotsquared, to allow Players to customize their roads around their plots.
 authors:
   - Terrocraft
   - Schemil053
