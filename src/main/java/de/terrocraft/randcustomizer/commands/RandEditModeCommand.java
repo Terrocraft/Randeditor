@@ -48,6 +48,7 @@ public class RandEditModeCommand implements TabExecutor {
             }
             RandCustomizer.setPlotForPlayer(player.getUniqueId(), plot);
             RandCustomizer.getInstance().putPlayer(player);
+
             player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.active"));
         }
         return true;

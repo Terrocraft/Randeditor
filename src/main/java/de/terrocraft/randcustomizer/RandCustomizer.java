@@ -21,6 +21,7 @@ public final class RandCustomizer extends JavaPlugin {
     private final List<UUID> inEditMode = new ArrayList<>();
     private final Map<UUID, ItemStack[]> playerInventory = new HashMap<>();
     private static final Map<UUID, Plot> playerPlot = new HashMap<>();
+    private static final Map<UUID, Boolean> playerFly = new HashMap<>();
     public static SConfig config;
     public static SConfig materials;
     public static SConfig language;
@@ -116,7 +117,12 @@ public final class RandCustomizer extends JavaPlugin {
         player.saveData();
         playerPlot.remove(player.getUniqueId());
         player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.inactive"));
-        if (playerInventory.containsKey(player.getUniqueId())) {
+        if (playerFly.containsKey(player.getUniqueId())) {
+            if (playerFly.get(player.getUniqueId())) {
+                player.setFlying(true);
+                player.setAllowFlight(true);
+                return;
+            }
             player.setFlying(false);
             player.setAllowFlight(false);
         }
@@ -134,9 +140,10 @@ public final class RandCustomizer extends JavaPlugin {
             return;
         }
 
-        if (config.getBoolean("fly-in-editmode")){
-            player.setFlying(true);
+        if (config.getBoolean("fly-in-editmode")) {
+            playerFly.put(player.getUniqueId(), player.getAllowFlight());
             player.setAllowFlight(true);
+            player.setFlying(true);
         }
     }
 
