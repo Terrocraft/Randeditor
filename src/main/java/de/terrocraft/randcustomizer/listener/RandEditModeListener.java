@@ -7,19 +7,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class RandEditModeListener implements Listener {
 
@@ -79,12 +76,22 @@ public class RandEditModeListener implements Listener {
                     player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
                     player.sendMessage("§aItem added to your Hotbar!");
 
-                    player.closeInventory();  // Schließt das Inventar nach der Auswahl
+                    player.closeInventory();
                 } else {
                     player.sendMessage("§cHotbar is full, cannot add item.");
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        Player p = (Player) e.getPlayer();
+
+        if (e.getView().getOriginalTitle().equals("§aEdit§7-§eInventory")) {
+            removeNavigationButtons(p);
+        }
+
     }
 
 
@@ -96,6 +103,15 @@ public class RandEditModeListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         return meta != null && "§aSearch".equals(meta.getDisplayName());
     }
+
+    private boolean isMaterialItem(ItemStack item) {
+        if (item == null || item.getType() != Material.BARREL) {
+            return false;
+        }
+        ItemMeta meta = item.getItemMeta();
+        return meta != null && "§aMaterials".equals(meta.getDisplayName());
+    }
+
 
 
     private List<ItemStack> findMatchingItems(String searchTerm) {
@@ -116,12 +132,12 @@ public class RandEditModeListener implements Listener {
     }
 
     @EventHandler
-    public void onInventoryOpen(InventoryOpenEvent event) {
-        Player player = (Player) event.getPlayer();
-        Inventory inventory = event.getInventory();
-        if (inventory.getType().equals(InventoryType.PLAYER)) {
-            event.setCancelled(true); // Cancel the default opening of the player inventory
-            openEditInventory(player); // Open the custom inventory instead
+    public void onInventoryOpen(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        ItemStack itemInUse = event.getItem();
+        if (isMaterialItem(itemInUse)) {
+            event.setCancelled(true);
+            openEditInventory(player);
         }
     }
 
@@ -138,10 +154,13 @@ public class RandEditModeListener implements Listener {
     private void addNavigationButtons(Player player) {
         ItemStack backButton = createNavigationButton(Material.ARROW, "§7Back", "§7Gehe zur vorherigen Seite");
         ItemStack forwardButton = createNavigationButton(Material.ARROW, "§7Forward", "§7Gehe zur nächsten Seite");
+        player.getInventory().setItem(9, backButton);
+        player.getInventory().setItem(17, forwardButton);
+    }
 
-        Inventory playerInventory = player.getInventory();
-        playerInventory.setItem(45, backButton);
-        playerInventory.setItem(53, forwardButton);
+    private void removeNavigationButtons(Player player) {
+        player.getInventory().setItem(9, new ItemStack(Material.AIR));
+        player.getInventory().setItem(17, new ItemStack(Material.AIR));
     }
 
     @EventHandler
@@ -151,10 +170,35 @@ public class RandEditModeListener implements Listener {
 
         // Prüfen, ob die Buttons im Spieler-Inventar geklickt wurden
         if (event.getView().getOriginalTitle().equals("§aEdit§7-§eInventory")) {
-            event.setCancelled(true); // Verhindert Standard-Verhalten
+            event.setCancelled(true);
 
             ItemStack clickedItem = event.getCurrentItem();
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
+                if (!(clickedItem.getType() == Material.ARROW)) {
+                    int amount = clickedItem.getAmount();
+                    int hotbarSlot = -1;
+
+                    for (int i = 0; i < 9; i++) {
+                        if (player.getInventory().getItem(i) == null || player.getInventory().getItem(i).getType() == Material.AIR) {
+                            hotbarSlot = i;
+                            break;
+                        }
+                    }
+
+                    if (hotbarSlot != -1) {
+                        if (player.getInventory().contains(clickedItem.getType())) {
+                            player.sendMessage("§c" + clickedItem.getType() + " is already in your hotbar!");
+                            return;
+                        }
+                        player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
+                        player.sendMessage("§aItem added to your Hotbar!");
+
+                        player.closeInventory();
+
+                    } else {
+                        player.sendMessage("§cHotbar is full, cannot add item.");
+                    }
+                }
                 if (clickedItem.getType() == Material.ARROW) {
                     String displayName = clickedItem.getItemMeta().getDisplayName();
                     if ("§7Back".equals(displayName)) {

@@ -1,8 +1,7 @@
 package de.terrocraft.randcustomizer.commands;
 
-import com.plotsquared.core.player.PlotPlayer;
-import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
+import de.terrocraft.randcustomizer.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -62,35 +61,35 @@ public class RandEditModeCommand implements TabExecutor {
         }
         return true;
     }*/
-        if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("edit")) {
-                if (!player.hasPermission("randcustomizer.randeditmode.set")) {
-                    player.sendMessage(RandCustomizer.noperm);
-                    return true;
-                }
+        if (args.length == 0) {
                 RandCustomizer.getInstance().putPlayer(player);
                 giveSearchItem(player);
+                giveMaterialItem(player);
                 return true;
-            }
         }
         return true;
     }
 
     private void giveSearchItem(Player player) {
-        ItemStack searchItem = new ItemStack(Material.PAPER);
-        ItemMeta meta = searchItem.getItemMeta();
-        meta.setDisplayName("§aSearch");
-        searchItem.setItemMeta(meta);
-        player.getInventory().setItem(0, searchItem);  // Setze das Such-Item in Slot 0
-        player.sendMessage("§aYou can now search for items by typing their name in chat!");
+        ItemStack searchItem = new ItemBuilder().setMeterial(Material.PAPER).setTitle("§aSearch").build();
+        player.getInventory().setItem(0, searchItem);
+        player.sendMessage("§aYou can now search for items by typing their name in chat while holding the Search item!");
+    }
+
+    private void giveMaterialItem(Player player) {
+        ItemStack materialItem = new ItemBuilder().setMeterial(Material.BARREL).setTitle("§aMaterials").build();
+        player.getInventory().setItem(8, materialItem);
     }
 
 
         //---------------------------------TABCOMPLETE---------------------------------------
         @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.set")) {
-            return List.of("edit");
+        ArrayList<String> adminCommands = new ArrayList<>();
+        if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.edit")) {
+            adminCommands.add("edit");
+            adminCommands.add("save");
+            return adminCommands;
         }
         return new ArrayList<>();
     }

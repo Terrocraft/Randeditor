@@ -140,13 +140,6 @@ public final class RandCustomizer extends JavaPlugin {
         player.closeInventory();
         RandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
         playerInventory.put(player.getUniqueId(), player.getInventory().getContents());
-        try {
-            player.getInventory().setContents(materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
-        } catch (Throwable throwable) {
-            resetPlayer(player);
-            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
-            return;
-        }
 
         if (config.getBoolean("fly-in-editmode")) {
             playerFly.put(player.getUniqueId(), player.getAllowFlight());
