@@ -140,6 +140,7 @@ public final class RandCustomizer extends JavaPlugin {
         player.closeInventory();
         RandCustomizer.getInstance().getInEditMode().add(player.getUniqueId());
         playerInventory.put(player.getUniqueId(), player.getInventory().getContents());
+        player.getInventory().clear();
 
         if (config.getBoolean("fly-in-editmode")) {
             playerFly.put(player.getUniqueId(), player.getAllowFlight());
@@ -148,8 +149,11 @@ public final class RandCustomizer extends JavaPlugin {
         }
     }
 
-    public void saveItems(ItemStack[] items) {
-        materials.set("materials", Arrays.asList(items));
+    public void addItem(ItemStack item) {
+        ArrayList<ItemStack> items = new ArrayList<>();
+        RandCustomizer.materials.getList("materials", items).toArray(new ItemStack[0]);
+        items.add(item);
+        materials.set("materials", items);
         materials.save();
     }
 

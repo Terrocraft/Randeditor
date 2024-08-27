@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
@@ -220,6 +221,10 @@ public class PlayerBlockListener implements Listener {
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
+        if (RandEditModeListener.isSearchItem(event.getItemDrop().getItemStack()) || RandEditModeListener.isMaterialItem(event.getItemDrop().getItemStack())){
+            return;
+        }
+        event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
         event.setCancelled(true);
     }
 

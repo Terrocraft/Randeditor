@@ -96,7 +96,7 @@ public class RandEditModeListener implements Listener {
 
 
 
-    private boolean isSearchItem(ItemStack item) {
+    public static boolean isSearchItem(ItemStack item) {
         if (item == null || item.getType() != Material.PAPER) {
             return false;
         }
@@ -104,7 +104,7 @@ public class RandEditModeListener implements Listener {
         return meta != null && "§aSearch".equals(meta.getDisplayName());
     }
 
-    private boolean isMaterialItem(ItemStack item) {
+    public static boolean isMaterialItem(ItemStack item) {
         if (item == null || item.getType() != Material.BARREL) {
             return false;
         }
