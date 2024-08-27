@@ -5,6 +5,7 @@ import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
+import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -221,11 +222,21 @@ public class PlayerBlockListener implements Listener {
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
-        if (RandEditModeListener.isSearchItem(event.getItemDrop().getItemStack()) || RandEditModeListener.isMaterialItem(event.getItemDrop().getItemStack())){
+        if (Utils.isSearchItem(event.getItemDrop().getItemStack()) || Utils.isMaterialItem(event.getItemDrop().getItemStack())){
+            event.setCancelled(true);
             return;
         }
         event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void InventoryClick(InventoryClickEvent e) {
+        if (Utils.isSearchItem(e.getCurrentItem())) {
+            e.setCancelled(true);
+        } else if (Utils.isMaterialItem(e.getCurrentItem())) {
+            Utils.openEditInventory((Player) e.getWhoClicked());
+        }
     }
 
     @EventHandler
