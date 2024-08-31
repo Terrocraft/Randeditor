@@ -232,11 +232,17 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void InventoryClick(InventoryClickEvent e) {
-        if (Utils.isSearchItem(e.getCurrentItem())) {
-            e.setCancelled(true);
-        } else if (Utils.isMaterialItem(e.getCurrentItem())) {
-            Utils.openEditInventory((Player) e.getWhoClicked());
+        Player p = (Player) e.getWhoClicked();
+        if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())) {
+            if (Utils.isSearchItem(e.getCurrentItem())) {
+                e.setCancelled(true);
+            } else if (Utils.isMaterialItem(e.getCurrentItem())) {
+                Utils.openEditInventory((Player) e.getWhoClicked());
+            } else if (Utils.isContentOfSetMaterials(e.getCurrentItem())) {
+                p.getInventory().remove(e.getCurrentItem());
+            }
         }
+
     }
 
     @EventHandler

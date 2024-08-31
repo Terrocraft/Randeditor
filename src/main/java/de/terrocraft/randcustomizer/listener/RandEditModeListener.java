@@ -2,7 +2,6 @@ package de.terrocraft.randcustomizer.listener;
 
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RandEditModeListener implements Listener {
@@ -34,7 +30,7 @@ public class RandEditModeListener implements Listener {
         if (plugin.getInEditMode().contains(player.getUniqueId())) {
             ItemStack itemInHand = player.getInventory().getItemInMainHand();
             if (Utils.isSearchItem(itemInHand)) {
-                event.setCancelled(true);  // Chat-Nachricht unterdrücken
+                event.setCancelled(true);
                 String searchTerm = event.getMessage();
 
                 List<ItemStack> searchResults = Utils.findMatchingItems(searchTerm);
@@ -43,7 +39,7 @@ public class RandEditModeListener implements Listener {
                 player.sendMessage("§aFound " + searchResults.size() + " matching items.");
 
                 if (!searchResults.isEmpty()) {
-                    openSearchInventory(player, searchResults);
+                    Utils.openSearchInventory(player, searchResults, plugin);
                     player.sendMessage("§aOpening search inventory...");
                 } else {
                     player.sendMessage("§cNo matching items found.");
@@ -53,11 +49,21 @@ public class RandEditModeListener implements Listener {
     }
 
 
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        if (plugin.getInEditMode().contains(p.getUniqueId())) {
+            if (Utils.isMaterialItem(e.getItem())) {
+                Utils.openEditInventory(p);
+            }
+        }
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getView().getTitle().equals("Search Results")) {
-            event.setCancelled(true);  // Verhindert das Standardverhalten
+            event.setCancelled(true);
+
 
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
@@ -148,23 +154,7 @@ public class RandEditModeListener implements Listener {
 
 
 
-    private void openSearchInventory(Player player, List<ItemStack> searchResults) {
-        Inventory searchInventory = Bukkit.createInventory(null, 54, "Search Results");
 
-        int index = 0;
-        for (ItemStack item : searchResults) {
-            if (index >= 54) break;  // Limit to 54 items (1 inventory)
-            searchInventory.setItem(index, item);
-            index++;
-        }
-
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            player.openInventory(searchInventory);
-            player.sendMessage("§aInventory should now be open.");
-        });
-
-
-    }
 
 
 }

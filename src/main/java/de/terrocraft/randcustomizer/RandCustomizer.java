@@ -78,7 +78,9 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("fehler.other", "§4Error, send a message to a Admin!");
             language.setDefault("message.editmode.active", "§2Editmode Active!");
             language.setDefault("message.editmode.inactive", "§4Editmode Inactive!");
-            language.setDefault("message.adminmode.saved", "§2Inventory Saved!");
+            language.setDefault("message.adminmode.no-item-in-hand", "§cYou need to have an item on your cursor!");
+            language.setDefault("message.adminmode.added-item", "§2%ITEM% was added to Edit-Inventory!");
+            language.setDefault("message.adminmode.item-already-in-edit-inventory", "§c%ITEM% is already in the edit-inventory");
         }
     }
 

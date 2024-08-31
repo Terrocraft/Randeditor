@@ -4,6 +4,7 @@ import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
+import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -60,9 +61,28 @@ public class RandEditModeCommand implements TabExecutor {
                     player.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
-                RandCustomizer.getInstance().addItem(player.getItemOnCursor());
-                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.saved"));
+                ItemStack itemInHand = player.getItemInHand();
+                if (itemInHand.getType() == Material.AIR) {
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.no-item-in-hand"));
+                    return true;
+                }
+
+                if (RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>()).contains(itemInHand)) {
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.item-already-in-edit-inventory").replace("%ITEM%", itemInHand.getType().toString()));
+                    return true;
+                }
+
+                RandCustomizer.getInstance().addItem(itemInHand);
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.added-item").replace("%ITEM%", itemInHand.getType().toString()));
                 return true;
+            } else if (args[0].equals("remove")) {
+                if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
+                    player.sendMessage(RandCustomizer.noperm);
+                    return true;
+                }
+
+                Utils.openAdminEditInventory(player);
+
             }
         }
 

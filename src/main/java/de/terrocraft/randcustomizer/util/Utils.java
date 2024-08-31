@@ -4,11 +4,10 @@ import de.terrocraft.randcustomizer.RandCustomizer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,15 +15,7 @@ import java.util.List;
 
 public class Utils {
 
-    @EventHandler
-    public static void onInventoryOpen(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack itemInUse = event.getItem();
-        if (isMaterialItem(itemInUse)) {
-            event.setCancelled(true);
-            openEditInventory(player);
-        }
-    }
+
 
     public static void openEditInventory(Player player) {
         Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
@@ -34,6 +25,34 @@ public class Utils {
         player.openInventory(editInv);
 
         addNavigationButtons(player);
+    }
+
+    public static void openAdminEditInventory(Player player) {
+        Inventory editInv = Bukkit.createInventory(null, 54, "§cAdmin§7-§aEdit§7-§eInventory");
+
+        editInv.setContents(RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
+
+        player.openInventory(editInv);
+
+        addNavigationButtons(player);
+    }
+
+    public static void openSearchInventory(Player player, List<ItemStack> searchResults, Plugin plugin) {
+        Inventory searchInventory = Bukkit.createInventory(null, 54, "Search Results");
+
+        int index = 0;
+        for (ItemStack item : searchResults) {
+            if (index >= 54) break;  // Limit to 54 items (1 inventory)
+            searchInventory.setItem(index, item);
+            index++;
+        }
+
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            player.openInventory(searchInventory);
+            player.sendMessage("§aInventory should now be open.");
+        });
+
+
     }
 
     public static ItemStack createNavigationButton(Material material, String displayName, String... lore) {
@@ -74,6 +93,20 @@ public class Utils {
         }
         ItemMeta meta = item.getItemMeta();
         return meta != null && "§aMaterials".equals(meta.getDisplayName());
+    }
+
+    public static boolean isContentOfSetMaterials(ItemStack item) {
+        for (ItemStack material : RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0])) {
+            if (material == null) {
+                continue;
+            }
+
+            if (material.getType() == item.getType()) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
 
