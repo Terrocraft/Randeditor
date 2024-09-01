@@ -153,7 +153,7 @@ public final class RandCustomizer extends JavaPlugin {
 
     public void addItem(ItemStack item) {
         ArrayList<ItemStack> items = new ArrayList<>();
-        RandCustomizer.materials.getList("materials", items).toArray(new ItemStack[0]);
+        items = (ArrayList<ItemStack>) RandCustomizer.materials.getList("materials", items);
         items.add(item);
         materials.set("materials", items);
         materials.save();
