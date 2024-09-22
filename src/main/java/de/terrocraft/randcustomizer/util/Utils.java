@@ -34,11 +34,6 @@ public class Utils {
             editInv.setItem(i - startIndex, materials.get(i));
         }
 
-        ItemStack blackGlass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        for (int i = endIndex - startIndex; i < 54; i++) {
-            editInv.setItem(i, blackGlass);
-        }
-
         addNavigationButtons(player);
 
         player.openInventory(editInv);
