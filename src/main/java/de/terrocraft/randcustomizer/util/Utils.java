@@ -18,22 +18,32 @@ public class Utils {
 
 
     public static void openEditInventory(Player player, int page) {
-        Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
-
         List<ItemStack> materials = (List<ItemStack>) RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>());
 
         int startIndex = (page - 1) * 54;
         int endIndex = Math.min(startIndex + 54, materials.size());
 
+        if (startIndex >= materials.size()) {
+            player.sendMessage("§cNo more items to display on this page.");
+            return;
+        }
+
+        Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
+
         for (int i = startIndex; i < endIndex; i++) {
             editInv.setItem(i - startIndex, materials.get(i));
         }
-        ItemStack BlackGlass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+
+        ItemStack blackGlass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        for (int i = endIndex - startIndex; i < 54; i++) {
+            editInv.setItem(i, blackGlass);
+        }
 
         addNavigationButtons(player);
 
         player.openInventory(editInv);
     }
+
 
 
     public static void openAdminEditInventory(Player player) {

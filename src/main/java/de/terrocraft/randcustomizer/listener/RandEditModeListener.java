@@ -3,6 +3,7 @@ package de.terrocraft.randcustomizer.listener;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +36,6 @@ public class RandEditModeListener implements Listener {
 
                 List<ItemStack> searchResults = Utils.findMatchingItems(searchTerm);
 
-                // Debug-Ausgabe
                 player.sendMessage("§aFound " + searchResults.size() + " matching items.");
 
                 if (!searchResults.isEmpty()) {
@@ -52,11 +52,13 @@ public class RandEditModeListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+
         if (plugin.getInEditMode().contains(p.getUniqueId())) {
             if (Utils.isMaterialItem(e.getItem())) {
                 Utils.openEditInventory(p, 1);
             }
         }
+
     }
 
     @EventHandler
@@ -66,27 +68,26 @@ public class RandEditModeListener implements Listener {
         String title = event.getView().getTitle();
 
         if (title.equals("§aEdit§7-§eInventory")) {
-            event.setCancelled(true); // Prevent players from taking items out of the inventory
+            event.setCancelled(true);
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                 if (clickedItem.getType() == Material.ARROW) {
                     String displayName = clickedItem.getItemMeta().getDisplayName();
-                    int currentPage = plugin.getCurrentPage(player.getUniqueId()); // Get current page
+                    int currentPage = plugin.getCurrentPage(player.getUniqueId());
 
                     if ("§7Back".equals(displayName)) {
                         if (currentPage > 1) {
                             plugin.setCurrentPage(player.getUniqueId(), currentPage - 1);
-                            Utils.openEditInventory(player, currentPage - 1); // Open the previous page
+                            Utils.openEditInventory(player, currentPage - 1);
                             Utils.addNavigationButtons(player);
+                            player.playSound(player, Sound.BLOCK_LAVA_POP, 1.5f, 1);
                         }
                     } else if ("§7Forward".equals(displayName)) {
                         plugin.setCurrentPage(player.getUniqueId(), currentPage + 1);
-                        Utils.openEditInventory(player, currentPage + 1); // Open the next page
+                        Utils.openEditInventory(player, currentPage + 1);
                         Utils.addNavigationButtons(player);
+                        player.playSound(player, Sound.BLOCK_LAVA_POP, 1.5f, 1);
                     }
-                } else {
-                    // Handle item selection (e.g., add to hotbar)
-                    player.sendMessage("§aYou clicked on " + clickedItem.getType());
                 }
             }
         }
@@ -109,7 +110,6 @@ public class RandEditModeListener implements Listener {
         Inventory clickedInventory = event.getInventory();
         Player player = (Player) event.getWhoClicked();
 
-        // Prüfen, ob die Buttons im Spieler-Inventar geklickt wurden
         if (event.getView().getOriginalTitle().equals("§aEdit§7-§eInventory")) {
             event.setCancelled(true);
 
@@ -136,16 +136,6 @@ public class RandEditModeListener implements Listener {
 
                     } else {
                         player.sendMessage("§cHotbar is full, cannot add item.");
-                    }
-                }
-                if (clickedItem.getType() == Material.ARROW) {
-                    String displayName = clickedItem.getItemMeta().getDisplayName();
-                    if ("§7Back".equals(displayName)) {
-                        // Handling für "Back"-Button
-                        player.sendMessage("§cBack Button geklickt!");
-                    } else if ("§7Forward".equals(displayName)) {
-                        // Handling für "Forward"-Button
-                        player.sendMessage("§aForward Button geklickt!");
                     }
                 }
             }
