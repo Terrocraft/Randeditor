@@ -132,8 +132,6 @@ public class RandEditModeListener implements Listener {
                         player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
                         player.sendMessage("§aItem added to your Hotbar!");
 
-                        player.closeInventory();
-
                     } else {
                         player.sendMessage("§cHotbar is full, cannot add item.");
                     }
