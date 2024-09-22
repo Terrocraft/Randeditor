@@ -54,42 +54,44 @@ public class RandEditModeListener implements Listener {
         Player p = e.getPlayer();
         if (plugin.getInEditMode().contains(p.getUniqueId())) {
             if (Utils.isMaterialItem(e.getItem())) {
-                Utils.openEditInventory(p);
+                Utils.openEditInventory(p, 1);
             }
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("Search Results")) {
-            event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        ItemStack clickedItem = event.getCurrentItem();
+        String title = event.getView().getTitle();
 
-
-            Player player = (Player) event.getWhoClicked();
-            ItemStack clickedItem = event.getCurrentItem();
+        if (title.equals("§aEdit§7-§eInventory")) {
+            event.setCancelled(true); // Prevent players from taking items out of the inventory
 
             if (clickedItem != null && clickedItem.getType() != Material.AIR) {
-                int amount = clickedItem.getAmount();
-                int hotbarSlot = -1;
+                if (clickedItem.getType() == Material.ARROW) {
+                    String displayName = clickedItem.getItemMeta().getDisplayName();
+                    int currentPage = plugin.getCurrentPage(player.getUniqueId()); // Get current page
 
-                for (int i = 0; i < 9; i++) {
-                    if (player.getInventory().getItem(i) == null || player.getInventory().getItem(i).getType() == Material.AIR) {
-                        hotbarSlot = i;
-                        break;
+                    if ("§7Back".equals(displayName)) {
+                        if (currentPage > 1) {
+                            plugin.setCurrentPage(player.getUniqueId(), currentPage - 1);
+                            Utils.openEditInventory(player, currentPage - 1); // Open the previous page
+                            Utils.addNavigationButtons(player);
+                        }
+                    } else if ("§7Forward".equals(displayName)) {
+                        plugin.setCurrentPage(player.getUniqueId(), currentPage + 1);
+                        Utils.openEditInventory(player, currentPage + 1); // Open the next page
+                        Utils.addNavigationButtons(player);
                     }
-                }
-
-                if (hotbarSlot != -1) {
-                    player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
-                    player.sendMessage("§aItem added to your Hotbar!");
-
-                    player.closeInventory();
                 } else {
-                    player.sendMessage("§cHotbar is full, cannot add item.");
+                    // Handle item selection (e.g., add to hotbar)
+                    player.sendMessage("§aYou clicked on " + clickedItem.getType());
                 }
             }
         }
     }
+
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {

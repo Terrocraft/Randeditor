@@ -32,6 +32,17 @@ public final class RandCustomizer extends JavaPlugin {
     public static SConfig BlockPermissions;
     private SConfig replaceMaterials;
 
+    private Map<UUID, Integer> playerPages = new HashMap<>();
+
+    public int getCurrentPage(UUID playerId) {
+        return playerPages.getOrDefault(playerId, 1);
+    }
+
+    public void setCurrentPage(UUID playerId, int page) {
+        playerPages.put(playerId, page);
+    }
+
+
     @Override
     public void onLoad() {
         instance = this;

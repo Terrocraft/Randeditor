@@ -17,15 +17,24 @@ public class Utils {
 
 
 
-    public static void openEditInventory(Player player) {
+    public static void openEditInventory(Player player, int page) {
         Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
 
-        editInv.setContents(RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
+        List<ItemStack> materials = (List<ItemStack>) RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>());
 
-        player.openInventory(editInv);
+        int startIndex = (page - 1) * 54;
+        int endIndex = Math.min(startIndex + 54, materials.size());
+
+        for (int i = startIndex; i < endIndex; i++) {
+            editInv.setItem(i - startIndex, materials.get(i));
+        }
+        ItemStack BlackGlass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 
         addNavigationButtons(player);
+
+        player.openInventory(editInv);
     }
+
 
     public static void openAdminEditInventory(Player player) {
         Inventory editInv = Bukkit.createInventory(null, 54, "§cAdmin§7-§aEdit§7-§eInventory");
@@ -42,7 +51,7 @@ public class Utils {
 
         int index = 0;
         for (ItemStack item : searchResults) {
-            if (index >= 54) break;  // Limit to 54 items (1 inventory)
+            if (index >= 54) break;
             searchInventory.setItem(index, item);
             index++;
         }

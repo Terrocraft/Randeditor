@@ -237,7 +237,7 @@ public class PlayerBlockListener implements Listener {
             if (Utils.isSearchItem(e.getCurrentItem())) {
                 e.setCancelled(true);
             } else if (Utils.isMaterialItem(e.getCurrentItem())) {
-                Utils.openEditInventory((Player) e.getWhoClicked());
+                Utils.openEditInventory((Player) e.getWhoClicked(), 1);
             } else if (Utils.isContentOfSetMaterials(e.getCurrentItem())) {
                 p.getInventory().remove(e.getCurrentItem());
             }
