@@ -1,8 +1,6 @@
 # Randeditor Plugin for CityBuild Minecraft Servers
 
-##---------------------------------------------------
-This is a Dev Build!!!!
----------------------------------------------------
+##------------------- This is a Dev Build!!!! -------------------
 
 ## Overview
 The **Randeditor Plugin** is a powerful tool designed specifically for CityBuild Minecraft servers, enabling server admins to create and customize player inventory layouts with ease. This plugin allows admins to pre-configure a special inventory, which players can access and use to modify the borders (or "rands") of their plots. This feature enhances the gameplay experience by giving players the ability to personalize the edges of their plots, while ensuring they have access to the exact items chosen by the admin.
