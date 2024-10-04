@@ -148,7 +148,7 @@ public class PlayerBlockListener implements Listener {
             if(plot == null) {
                 continue;
             }
-            if(plot.isOwner(player.getUniqueId())) {
+            if(plot.isOwner(player.getUniqueId()) || !player.hasPermission("randcustomizer.randeditmode.bypass")) {
                 can = true;
             }
         }
