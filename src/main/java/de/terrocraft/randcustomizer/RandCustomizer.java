@@ -102,6 +102,7 @@ public final class RandCustomizer extends JavaPlugin {
             config.setDefault("road-edit-height-bottom", 1);
             config.setDefault("fly-in-editmode", false);
             config.setDefault("sound-toggle-editmode", true);
+            config.setDefault("Barrier-in-hotbar", true);
         }
     }
 

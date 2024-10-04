@@ -6,6 +6,7 @@ import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
 import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -48,12 +49,17 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
+                if (RandCustomizer.config.getBoolean("sound-toggle-editmode")){
+                    player.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 100, 2);
+                }
+
                 RandCustomizer.setPlotForPlayer(player.getUniqueId(), plot);
                 RandCustomizer.getInstance().putPlayer(player);
 
 
                 giveSearchItem(player);
                 giveMaterialItem(player);
+                giveBarrier(player);
             }
         } else
 
@@ -104,6 +110,14 @@ public class RandEditModeCommand implements TabExecutor {
     private void giveMaterialItem(Player player) {
         ItemStack materialItem = new ItemBuilder().setMeterial(Material.BARREL).setTitle("§aMaterials").build();
         player.getInventory().setItem(8, materialItem);
+    }
+
+    private void giveBarrier(Player player) {
+        if (!RandCustomizer.config.getBoolean("Barrier-in-hotbar")){
+            return;
+        }
+        ItemStack materialItem = new ItemBuilder().setMeterial(Material.BARRIER).setTitle("§4Air").build();
+        player.getInventory().setItem(4, materialItem);
     }
 
 
