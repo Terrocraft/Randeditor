@@ -98,11 +98,12 @@ public final class RandCustomizer extends JavaPlugin {
     public void setConfig(){
         if(!config.getFile().isFile()) {
             config.setDefault("radius-around-plot", 2);
-            config.setDefault("road-edit-height-top", 0);
-            config.setDefault("road-edit-height-bottom", 1);
+            config.setDefault("road-edit-height-top", 2);
+            config.setDefault("road-edit-height-bottom", 5);
             config.setDefault("fly-in-editmode", false);
             config.setDefault("sound-toggle-editmode", true);
             config.setDefault("Barrier-in-hotbar", true);
+            config.setDefault("Deny-Bedrock-Break", true);
         }
     }
 

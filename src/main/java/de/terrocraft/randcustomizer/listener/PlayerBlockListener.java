@@ -123,6 +123,10 @@ public class PlayerBlockListener implements Listener {
 
         Block clicked = event.getClickedBlock();
 
+        if (RandCustomizer.config.getBoolean("Deny-Bedrock-Break") && clicked.getType().equals(Material.BEDROCK)){
+            return;
+        }
+
         if(player.isSneaking()) {
             clicked = clicked.getRelative(event.getBlockFace());
         }
@@ -148,7 +152,7 @@ public class PlayerBlockListener implements Listener {
             if(plot == null) {
                 continue;
             }
-            if(plot.isOwner(player.getUniqueId()) || !player.hasPermission("randcustomizer.randeditmode.bypass")) {
+            if(plot.isOwner(player.getUniqueId()) || player.hasPermission("randcustomizer.randeditmode.bypass")) {
                 can = true;
             }
         }
