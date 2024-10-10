@@ -40,6 +40,10 @@ public class ItemBuilder {
         itemMeta.setCustomModelData(CustomModelData);
         return this;
     }
+    public ItemBuilder setUnbreakable(boolean unbreakable) {
+        itemMeta.setUnbreakable(true);
+        return this;
+    }
     public ItemBuilder setEnchantments(HashMap<Enchantment, Integer> enchantments) {
         item.addEnchantments(enchantments);
         return this;

@@ -59,6 +59,8 @@ public final class RandCustomizer extends JavaPlugin {
         replaceMaterials = ConfigUtil.getConfig("replace-materials");
         BlockPermissions = ConfigUtil.getConfig("BlockPermissions");
 
+        //Register Configs
+
         setlanguage();
         setConfig();
         setReplaceMaterials();
