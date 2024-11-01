@@ -3,7 +3,9 @@ package de.terrocraft.randcustomizer.commands;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
+import de.terrocraft.randcustomizer.util.ConfigUtil;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
+import de.terrocraft.randcustomizer.util.SConfig;
 import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,6 +15,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +97,33 @@ public class RandEditModeCommand implements TabExecutor {
 
                 Utils.openAdminEditInventory(player);
 
+            } else if (args[0].equalsIgnoreCase("reload")) {
+                if (!sender.hasPermission("randcustomizer.randeditmode.reload")) {
+                    player.sendMessage(RandCustomizer.noperm);
+                    return true;
+                }
+
+                // Löschen des Caches
+                ConfigUtil.cachemap.clear();
+
+                // Stellen sicher, dass der DataFolder existiert
+                if (!RandCustomizer.getInstance().getDataFolder().exists()) {
+                    RandCustomizer.getInstance().getDataFolder().mkdirs();
+                }
+
+                // Neue Initialisierung der Config-Instanzen
+                RandCustomizer.config = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "config.yml"), "config");
+                RandCustomizer.materials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "materials.yml"), "materials");
+                RandCustomizer.language = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "language.yml"), "language");
+                RandCustomizer.replaceMaterials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "replace-materials.yml"), "replace-materials");
+                RandCustomizer.BlockPermissions = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "BlockPermissions.yml"), "BlockPermissions");
+
+                // Setze die entsprechenden Werte neu
+                RandCustomizer.getInstance().setlanguage();
+                RandCustomizer.getInstance().setConfig();
+                RandCustomizer.getInstance().setReplaceMaterials();
+
+                player.sendMessage(RandCustomizer.prefix + "§aAll configs were reloaded.");
             }
         }
 
@@ -125,8 +155,14 @@ public class RandEditModeCommand implements TabExecutor {
         @Override
     public List<String> onTabComplete(CommandSender sender,Command command,String label, String[] args) {
         ArrayList<String> adminCommands = new ArrayList<>();
-        if(sender instanceof Player && sender.hasPermission("randcustomizer.randeditmode.add")) {
-            adminCommands.add("add");
+        if (sender instanceof Player) {
+
+            if (sender.hasPermission("randcustomizer.randeditmode.add")) adminCommands.add("add");
+
+            if (sender.hasPermission("randcustomizer.randeditmode.remove")) adminCommands.add("remove");
+
+            if (sender.hasPermission("randcustomizer.randeditmode.reload")) adminCommands.add("reload");
+
             return adminCommands;
         }
         return new ArrayList<>();

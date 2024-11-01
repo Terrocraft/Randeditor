@@ -63,7 +63,6 @@ public class Utils {
 
         Bukkit.getScheduler().runTask(plugin, () -> {
             player.openInventory(searchInventory);
-            player.sendMessage("§aInventory should now be open.");
         });
 
 

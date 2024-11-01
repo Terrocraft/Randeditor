@@ -2,6 +2,7 @@ package de.terrocraft.randcustomizer;
 
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
+import de.terrocraft.randcustomizer.listener.AdminGUIListener;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
 import de.terrocraft.randcustomizer.listener.RandEditModeListener;
 import de.terrocraft.randcustomizer.util.ConfigUtil;
@@ -30,7 +31,7 @@ public final class RandCustomizer extends JavaPlugin {
     public static String prefix;
     public static String noperm;
     public static SConfig BlockPermissions;
-    private SConfig replaceMaterials;
+    public static SConfig replaceMaterials;
 
     private Map<UUID, Integer> playerPages = new HashMap<>();
 
@@ -73,7 +74,7 @@ public final class RandCustomizer extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerBlockListener(), this);
         getServer().getPluginManager().registerEvents(new RandEditModeListener(this), this);
-
+        getServer().getPluginManager().registerEvents(new AdminGUIListener(), this);
         prefix = language.getString("prefix");
       
         noperm = prefix + language.getString("no-perm");
@@ -168,12 +169,18 @@ public final class RandCustomizer extends JavaPlugin {
     }
 
     public void addItem(ItemStack item) {
-        ArrayList<ItemStack> items = new ArrayList<>();
-        items = (ArrayList<ItemStack>) RandCustomizer.materials.getList("materials", items);
+        List<ItemStack> items = new ArrayList<>();
+        items = (List<ItemStack>) RandCustomizer.materials.getList("materials", items);
         items.add(item);
         materials.set("materials", items);
         materials.save();
     }
+
+    public void setInv(List<ItemStack> itemList) {
+        materials.set("materials", itemList);
+        materials.save();
+    }
+
 
     public static void setPlotForPlayer(UUID playerId, Plot plot) {
         playerPlot.put(playerId, plot);
