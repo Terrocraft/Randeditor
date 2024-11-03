@@ -10,6 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.Objects;
 
@@ -94,8 +97,9 @@ public class PlayerBlockListener implements Listener {
             return;
         }
         Player player = event.getPlayer();
+        ItemStack item = event.getItem();
         Material material = Material.AIR;
-        material = event.getItem().getType();
+        material = item.getType();
 
         if(RandCustomizer.getInstance().getReplaceMaterials().contains(material.name())) {
             try {

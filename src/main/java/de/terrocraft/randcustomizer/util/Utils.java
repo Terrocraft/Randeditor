@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Utils {
 
@@ -30,25 +31,21 @@ public class Utils {
 
         Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
 
+        int removeditems = 0;
+
         for (int i = startIndex; i < endIndex; i++) {
-            editInv.setItem(i - startIndex, materials.get(i));
+            if (RandCustomizer.BlockPermissions.getString("Blocks." + materials.get(i)) != null){
+                if (!player.hasPermission(Objects.requireNonNull(RandCustomizer.BlockPermissions.getString("Blocks." + materials.get(i))))){
+                    removeditems++;
+                    continue;
+                }
+            }
+            editInv.setItem(i - removeditems - startIndex, materials.get(i));
         }
 
         addNavigationButtons(player);
 
         player.openInventory(editInv);
-    }
-
-
-
-    public static void openAdminEditInventory(Player player) {
-        Inventory editInv = Bukkit.createInventory(null, 54, "§cAdmin§7-§aEdit§7-§eInventory");
-
-        editInv.setContents(RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>()).toArray(new ItemStack[0]));
-
-        player.openInventory(editInv);
-
-        addNavigationButtons(player);
     }
 
     public static void openSearchInventory(Player player, List<ItemStack> searchResults, Plugin plugin) {
