@@ -78,7 +78,7 @@ public final class RandCustomizer extends JavaPlugin {
         prefix = language.getString("prefix");
       
         noperm = prefix + language.getString("no-perm");
-        int pluginId = 23191;
+        int pluginId = 23798;
         new Metrics(this, pluginId);
 
     }

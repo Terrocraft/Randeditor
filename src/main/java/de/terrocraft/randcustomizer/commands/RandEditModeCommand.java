@@ -101,22 +101,18 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
-                // Löschen des Caches
                 ConfigUtil.cachemap.clear();
 
-                // Stellen sicher, dass der DataFolder existiert
                 if (!RandCustomizer.getInstance().getDataFolder().exists()) {
                     RandCustomizer.getInstance().getDataFolder().mkdirs();
                 }
 
-                // Neue Initialisierung der Config-Instanzen
                 RandCustomizer.config = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "config.yml"), "config");
                 RandCustomizer.materials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "materials.yml"), "materials");
                 RandCustomizer.language = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "language.yml"), "language");
                 RandCustomizer.replaceMaterials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "replace-materials.yml"), "replace-materials");
                 RandCustomizer.BlockPermissions = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "BlockPermissions.yml"), "BlockPermissions");
 
-                // Setze die entsprechenden Werte neu
                 RandCustomizer.getInstance().setlanguage();
                 RandCustomizer.getInstance().setConfig();
                 RandCustomizer.getInstance().setReplaceMaterials();
