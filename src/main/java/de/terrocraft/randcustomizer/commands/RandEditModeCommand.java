@@ -95,8 +95,6 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
-                Utils.openAdminEditInventory(player);
-
             } else if (args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission("randcustomizer.randeditmode.reload")) {
                     player.sendMessage(RandCustomizer.noperm);
