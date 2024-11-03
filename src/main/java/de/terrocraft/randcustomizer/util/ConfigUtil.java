@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigUtil {
-    static Map<String, SConfig> cachemap = new HashMap<>();
+    public static Map<String, SConfig> cachemap = new HashMap<>();
 
     public static SConfig getConfig(String name) {
         if (cachemap.get(name) != null) {
@@ -18,6 +18,11 @@ public class ConfigUtil {
         cachemap.put(name, sConfig);
         return sConfig;
     }
+
+    public void clearAllCache() {
+        cachemap.clear();
+    }
+
 
     public static void saveALL() {
         cachemap.forEach((a, b) -> {

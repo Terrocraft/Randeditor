@@ -111,12 +111,12 @@ public class PlayerBlockListener implements Listener {
         }
 
         if (RandCustomizer.BlockPermissions.contains("Block." + material.name())){
-           String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
+            String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
             assert permission != null;
             if (!player.hasPermission(permission)){
                 player.sendMessage(Objects.requireNonNull(RandCustomizer.language.getString("noblock-perm")));
-               return;
-           }
+                return;
+            }
         }
 
         event.setCancelled(true);

@@ -107,7 +107,6 @@ public class RandEditModeListener implements Listener {
 
     @EventHandler
     public void onInventoryClickPlayerClick(InventoryClickEvent event) {
-        Inventory clickedInventory = event.getInventory();
         Player player = (Player) event.getWhoClicked();
 
         if (event.getView().getOriginalTitle().equals("§aEdit§7-§eInventory")) {
