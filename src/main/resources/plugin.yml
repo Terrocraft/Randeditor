@@ -28,3 +28,6 @@ permissions:
   randcustomizer.randeditmode.remove:
     description: Allows removing blocks in edit mode.
     default: op
+  randcustomizer.randeditmode.reload:
+    description: Allow to reload the plugin.
+    default: op

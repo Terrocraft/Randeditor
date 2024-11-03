@@ -71,7 +71,7 @@ public class RandEditModeCommand implements TabExecutor {
 
         if (args.length == 1) {
             if (args[0].equals("add")) {
-                if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
+                if (!sender.hasPermission("randcustomizer.randeditmode.add")) {
                     player.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
@@ -90,7 +90,7 @@ public class RandEditModeCommand implements TabExecutor {
                 player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.added-item").replace("%ITEM%", itemInHand.getType().toString()));
                 return true;
             } else if (args[0].equals("remove")) {
-                if (!sender.hasPermission("randcustomizer.randeditmode.set")) {
+                if (!sender.hasPermission("randcustomizer.randeditmode.remove")) {
                     player.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
