@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -81,6 +82,17 @@ public final class RandCustomizer extends JavaPlugin {
         int pluginId = 23798;
         new Metrics(this, pluginId);
 
+        registerBlockPermissions();
+    }
+
+    private void registerBlockPermissions() {
+        for (String key : BlockPermissions.getConfigurationSection("Blocks").getKeys(false)) {
+            String permissionString = BlockPermissions.getString("Blocks." + key);
+            if (permissionString != null && !permissionString.isEmpty()) {
+                Permission permission = new Permission(permissionString);
+                Bukkit.getPluginManager().addPermission(permission);
+            }
+        }
     }
 
     public void setlanguage(){

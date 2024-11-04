@@ -187,18 +187,37 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if(event.getInventory().equals(event.getWhoClicked().getInventory())) {
+        if (event.getInventory().equals(event.getWhoClicked().getInventory())) {
             return;
         }
-        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
+        if (!RandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
             return;
         }
-        if(event.getClickedInventory() != null) {
-            if(event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+        if (event.getClickedInventory() != null) {
+            if (event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
                 return;
             }
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void InventoryClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())) {
+            ItemStack currentItem = e.getCurrentItem();
+            if (currentItem == null) {
+                return;
+            }
+
+            if (Utils.isSearchItem(currentItem)) {
+                e.setCancelled(true);
+            } else if (Utils.isMaterialItem(currentItem)) {
+                Utils.openEditInventory(p, 1);
+            } else if (Utils.isContentOfSetMaterials(currentItem)) {
+                p.getInventory().remove(currentItem);
+            }
+        }
     }
 
     @EventHandler
@@ -207,6 +226,9 @@ public class PlayerBlockListener implements Listener {
             return;
         }
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
+            return;
+        }
+        if (event.getInventory().equals(Utils.searchInventory) || event.getInventory().equals(Utils.editInv)){
             return;
         }
 
@@ -236,21 +258,6 @@ public class PlayerBlockListener implements Listener {
         }
         event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void InventoryClick(InventoryClickEvent e) {
-        Player p = (Player) e.getWhoClicked();
-        if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())) {
-            if (Utils.isSearchItem(e.getCurrentItem())) {
-                e.setCancelled(true);
-            } else if (Utils.isMaterialItem(e.getCurrentItem())) {
-                Utils.openEditInventory((Player) e.getWhoClicked(), 1);
-            } else if (Utils.isContentOfSetMaterials(e.getCurrentItem())) {
-                p.getInventory().remove(e.getCurrentItem());
-            }
-        }
-
     }
 
     @EventHandler

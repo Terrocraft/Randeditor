@@ -9,17 +9,31 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Utils {
 
-
+    public static Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
+    public static Inventory searchInventory = Bukkit.createInventory(null, 54, "Search Results");
 
     public static void openEditInventory(Player player, int page) {
-        List<ItemStack> materials = (List<ItemStack>) RandCustomizer.materials.getList("materials", new ArrayList<ItemStack>());
+        List<ItemStack> materials = (List<ItemStack>) RandCustomizer.materials.getList("materials", new ArrayList<>());
+        for (String key : RandCustomizer.BlockPermissions.getConfigurationSection("Blocks").getKeys(false)) {
+            Material blockMaterial;
+            try {
+                blockMaterial = Material.valueOf(key);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
+
+            Iterator<ItemStack> iterator = materials.iterator();
+            while (iterator.hasNext()) {
+                ItemStack item = iterator.next();
+                if (item.getType() == blockMaterial) {
+                    iterator.remove();
+                }
+            }
+        }
 
         int startIndex = (page - 1) * 54;
         int endIndex = Math.min(startIndex + 54, materials.size());
@@ -29,18 +43,9 @@ public class Utils {
             return;
         }
 
-        Inventory editInv = Bukkit.createInventory(null, 54, "§aEdit§7-§eInventory");
-
-        int removeditems = 0;
 
         for (int i = startIndex; i < endIndex; i++) {
-            if (RandCustomizer.BlockPermissions.getString("Blocks." + materials.get(i)) != null){
-                if (!player.hasPermission(Objects.requireNonNull(RandCustomizer.BlockPermissions.getString("Blocks." + materials.get(i))))){
-                    removeditems++;
-                    continue;
-                }
-            }
-            editInv.setItem(i - removeditems - startIndex, materials.get(i));
+            editInv.setItem(i - startIndex, materials.get(i));
         }
 
         addNavigationButtons(player);
@@ -49,7 +54,6 @@ public class Utils {
     }
 
     public static void openSearchInventory(Player player, List<ItemStack> searchResults, Plugin plugin) {
-        Inventory searchInventory = Bukkit.createInventory(null, 54, "Search Results");
 
         int index = 0;
         for (ItemStack item : searchResults) {

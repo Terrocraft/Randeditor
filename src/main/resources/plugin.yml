@@ -18,16 +18,11 @@ commands:
 permissions:
   randcustomizer.randeditmode:
     description: Allows using the /randeditmode command.
-    default: op
   randcustomizer.randeditmode.bypass:
     description: Allows bypassing restrictions in edit mode.
-    default: op
   randcustomizer.randeditmode.add:
     description: Allows adding blocks to edit mode.
-    default: op
   randcustomizer.randeditmode.remove:
     description: Allows removing blocks in edit mode.
-    default: op
   randcustomizer.randeditmode.reload:
     description: Allow to reload the plugin.
-    default: op
