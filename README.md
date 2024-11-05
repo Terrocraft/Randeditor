@@ -40,6 +40,14 @@ When a player enters Randeditor mode, their existing inventory is stored tempora
 ### Plot Border Customization
 Players can use the provided inventory to completely personalize the borders of their plots. This feature encourages creativity, as players can experiment with different block types and designs to make their plot stand out from others.
 
+### Configuration Options
+- **Radius Around Plot**: Defines the radius around the plot for road customization.
+- **Edit Mode Fly**: Allows flying within edit mode if enabled.
+- **Sound Toggle**: Plays sounds upon enabling edit mode.
+- **Hotbar Barriers**: Option to place barriers in the hotbar for convenience.
+- **Material Replacement**: Configurable replacement for certain items, e.g., replacing barriers with air.
+- **Custom Block Permission**: Configurable permissions for Blocks, if the player doesn't have it, he can't use the respective block.
+
 ### Seamless Exit and Re-Entry
 Players can exit the Randeditor mode at any time by either leaving their plot or by re-entering the <code>/randeditor</code> command. Upon exiting, their original inventory is restored automatically, allowing them to continue their gameplay without interruption.
 
