@@ -1,5 +1,9 @@
 # Randeditor Plugin for CityBuild Minecraft Servers
 
+
+<div align="center">
+  <img src="https://img.shields.io/github/languages/code-size/Terrocraft/Randeditor" alt="GitHub code size in bytes"/>                     <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/Terrocraft/Randeditor/badge?filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
+
 ## ------------------This is a Dev Build!!!!------------------
 
 ## Overview
