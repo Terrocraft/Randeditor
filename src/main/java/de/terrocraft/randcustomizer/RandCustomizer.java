@@ -104,16 +104,19 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("fehler.other", "§4Error, send a message to a Admin!");
             language.setDefault("message.editmode.active", "§2Editmode Active!");
             language.setDefault("message.editmode.inactive", "§4Editmode Inactive!");
+            language.setDefault("message.editmode.search.giveitem", "§aYou can now search for items by typing their name in chat while holding the Search item!");
+            language.setDefault("message.editmode.search.openinv", "§aOpening search inventory...");
+            language.setDefault("message.editmode.search.no-matching-items", "§cNo matching items found.");
             language.setDefault("message.adminmode.no-item-in-hand", "§cYou need to have an item on your cursor!");
             language.setDefault("message.adminmode.added-item", "§2%ITEM% was added to Edit-Inventory!");
+            language.setDefault("message.adminmode.air-remove-item", "§cYou can not remove air!");
+            language.setDefault("message.adminmode.remove-item-not-exists", "§cThis item is not in the material list!");
+            language.setDefault("message.adminmode.item-removed", "§aThe item %ITEM% will be removed!");
             language.setDefault("message.adminmode.item-already-in-edit-inventory", "§c%ITEM% is already in the edit-inventory");
-            language.setDefault("massage.editmode.search.giveitem", "§aYou can now search for items by typing their name in chat while holding the Search item!");
-            language.setDefault("massage.editmode.search.openinv", "§aOpening search inventory...");
-            language.setDefault("massage.editmode.search.no-matching-items", "§cNo matching items found.");
-            language.setDefault("massage.edit-inv.item-already-in-hotbar", "§c%ITEM% is already in your hotbar!");
-            language.setDefault("massage.edit-inv.item-added-to-hotbar", "§a%ITEM% added to your Hotbar!");
-            language.setDefault("massage.edit-inv.hotbar-is-full", "§cHotbar is full, cannot add item.");
-            language.setDefault("massage.edit-inv.no-more-items-to-display", "§cNo more items to display on this page.");
+            language.setDefault("message.edit-inv.item-already-in-hotbar", "§c%ITEM% is already in your hotbar!");
+            language.setDefault("message.edit-inv.item-added-to-hotbar", "§a%ITEM% added to your Hotbar!");
+            language.setDefault("message.edit-inv.hotbar-is-full", "§cHotbar is full, cannot add item.");
+            language.setDefault("message.edit-inv.no-more-items-to-display", "§cNo more items to display on this page.");
         }
     }
 
@@ -191,6 +194,14 @@ public final class RandCustomizer extends JavaPlugin {
         List<ItemStack> items = new ArrayList<>();
         items = (List<ItemStack>) RandCustomizer.materials.getList("materials", items);
         items.add(item);
+        materials.set("materials", items);
+        materials.save();
+    }
+
+    public void removeItem(ItemStack item) {
+        List<ItemStack> items = new ArrayList<>();
+        items = (List<ItemStack>) RandCustomizer.materials.getList("materials", items);
+        items.remove(item);
         materials.set("materials", items);
         materials.save();
     }

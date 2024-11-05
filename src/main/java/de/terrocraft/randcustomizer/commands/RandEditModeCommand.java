@@ -7,6 +7,7 @@ import de.terrocraft.randcustomizer.util.ConfigUtil;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
 import de.terrocraft.randcustomizer.util.SConfig;
 import de.terrocraft.randcustomizer.util.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -95,9 +96,34 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
+                ItemStack itemInHand = player.getItemInHand();
+
+                if (itemInHand.getType() == Material.AIR) {
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.air-remove-item"));
+                    return true;
+                }
+
+                List<?> materials = RandCustomizer.materials.getList("materials");
+                boolean itemFound = false;
+
+                for (Object material : materials) {
+                    if (material instanceof ItemStack) {
+                        ItemStack listItem = (ItemStack) material;
+                        if (listItem.getType() == itemInHand.getType()) {
+                            RandCustomizer.getInstance().removeItem(listItem);
+                            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.item-removed").replace("%ITEM%", itemInHand.getType().toString()));
+                            itemFound = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!itemFound) {
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.adminmode.remove-item-not-exists"));
+                }
             } else if (args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission("randcustomizer.randeditmode.reload")) {
-                    player.sendMessage(RandCustomizer.noperm);
+                    sender.sendMessage(RandCustomizer.noperm);
                     return true;
                 }
 
@@ -106,6 +132,8 @@ public class RandEditModeCommand implements TabExecutor {
                 if (!RandCustomizer.getInstance().getDataFolder().exists()) {
                     RandCustomizer.getInstance().getDataFolder().mkdirs();
                 }
+
+                Bukkit.getLogger().info("Loading configuration files...");
 
                 RandCustomizer.config = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "config.yml"), "config");
                 RandCustomizer.materials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "materials.yml"), "materials");
@@ -117,8 +145,9 @@ public class RandEditModeCommand implements TabExecutor {
                 RandCustomizer.getInstance().setConfig();
                 RandCustomizer.getInstance().setReplaceMaterials();
 
-                player.sendMessage(RandCustomizer.prefix + "§aAll configs were reloaded.");
+                sender.sendMessage(RandCustomizer.prefix + "§aAll configs were reloaded.");
             }
+
         }
 
 
@@ -128,7 +157,7 @@ public class RandEditModeCommand implements TabExecutor {
     private void giveSearchItem(Player player) {
         ItemStack searchItem = new ItemBuilder().setMeterial(Material.PAPER).setTitle("§aSearch").build();
         player.getInventory().setItem(0, searchItem);
-        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.giveitem"));
+        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.search.giveitem"));
     }
 
     private void giveMaterialItem(Player player) {

@@ -9,6 +9,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+//This function will be added later.
+
 public class AdminMenu {
     public static void OpenAdminMenu(Player p){
         if (!p.hasPermission("randcustomizer.admin.openmenu")){

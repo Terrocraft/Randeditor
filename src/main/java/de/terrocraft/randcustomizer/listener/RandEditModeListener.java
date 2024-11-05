@@ -40,9 +40,9 @@ public class RandEditModeListener implements Listener {
 
                 if (!searchResults.isEmpty()) {
                     Utils.openSearchInventory(player, searchResults, plugin);
-                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.openinv"));
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.search.openinv"));
                 } else {
-                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.no-matching-items"));
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.search.no-matching-items"));
                 }
             }
         }
@@ -127,14 +127,14 @@ public class RandEditModeListener implements Listener {
 
                     if (hotbarSlot != -1) {
                         if (player.getInventory().contains(clickedItem.getType())) {
-                            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.item-already-in-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
+                            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.edit-inv.item-already-in-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
                             return;
                         }
                         player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
-                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.item-added-to-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
+                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.edit-inv.item-added-to-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
 
                     } else {
-                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.hotbar-is-full"));
+                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.edit-inv.hotbar-is-full"));
                     }
                 }
             }

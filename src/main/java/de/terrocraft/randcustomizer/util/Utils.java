@@ -39,7 +39,7 @@ public class Utils {
         int endIndex = Math.min(startIndex + 54, materials.size());
 
         if (startIndex >= materials.size()) {
-            player.sendMessage(RandCustomizer.prefix + "massage.edit-inv.no-more-items-to-display");
+            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.edit-inv.no-more-items-to-display"));
             return;
         }
 
