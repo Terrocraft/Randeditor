@@ -1,5 +1,10 @@
 # Randeditor Plugin for CityBuild Minecraft Servers
 
+
+<div align="center">
+  <img src="https://img.shields.io/github/languages/code-size/Terrocraft/Randeditor" alt="GitHub code size in bytes"/>                     <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/Terrocraft/Randeditor/badge?filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
+</div>
+
 ## ------------------This is a Dev Build!!!!------------------
 
 ## Overview
@@ -62,3 +67,6 @@ Players can exit the Randeditor mode at any time by either leaving their plot or
 
 ## Conclusion
 The Randeditor Plugin is an essential addition to any CityBuild Minecraft server looking to improve player engagement and creativity. By giving admins the power to design custom inventories and providing players with an easy way to fully personalize their plot borders, this plugin adds a new layer of depth to the CityBuild experience. Whether for aesthetic purposes, creative expression, or simply to give players more control over their plot designs, Randeditor is the perfect tool to enhance your server.
+
+## bStats
+[![bStats Graph Data](https://bstats.org/signatures/bukkit/RandCustomizer.svg)](https://bstats.org/plugin/bukkit/RandCustomizer)
