@@ -20,7 +20,10 @@ Admins can create and design a specific inventory that is tailored to the needs 
 ### Simple Command Interface
 <ul>
   <li>
-    <code>/randeditor set</code>: Admins can use this command to save the custom inventory they’ve created. This inventory will then be the template that players receive when they enter the Randeditor mode.
+    <code>/randeditor add</code>: Admins can use this command to add Blocks in the edit mode.
+  </li>
+    <li>
+    <code>/randeditor remove</code>: Admins can use this command to remove Blocks in the edit mode.
   </li>
   <li>
     <code>/randeditor</code>: Players can access the Randeditor mode by entering this command on their plot. Their current inventory is temporarily saved, and they are provided with the admin-configured inventory to edit the borders of their plot.
@@ -28,15 +31,8 @@ Admins can create and design a specific inventory that is tailored to the needs 
 </ul>
 
 ### Permissions System
-The plugin utilizes a permission-based system to control access to the Randeditor features:
-<ul>
-  <li>
-    <strong>randcustomizer.randeditmode</strong>: Grants players the ability to enter the Randeditor mode and customize their plot borders.
-  </li>
-  <li>
-    <strong>randcustomizer.randeditmode.set</strong>: Allows admins to set and save the custom inventory layout that players will use in Randeditor mode.
-  </li>
-</ul>
+he plugin uses permissions to control access:
+<ul> <li> <strong>randcustomizer.randeditmode</strong>: Grants players access to the RandCustomizer mode. </li> <li> <strong>randcustomizer.randeditmode.set</strong>: Allows admins to set and save the custom inventory layout. </li> <li> <strong>randcustomizer.randeditmode.bypass</strong>: Allows bypassing restrictions in edit mode. </li> <li> <strong>randcustomizer.randeditmode.add</strong>: Allows adding blocks to edit mode. </li> <li> <strong>randcustomizer.randeditmode.remove</strong>: Allows removing blocks in edit mode. </li> <li> <strong>randcustomizer.randeditmode.reload</strong>: Allows reloading the plugin. </li> </ul>
 
 ### Player Inventory Management
 When a player enters Randeditor mode, their existing inventory is stored temporarily. They are given the specially prepared inventory by the admin to modify the plot borders. Once they finish editing, or leave the plot, their original inventory is restored, ensuring no items are lost in the process.
