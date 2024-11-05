@@ -2,7 +2,7 @@ name: RandCustomizer
 version: '${project.version}'
 main: de.terrocraft.randcustomizer.RandCustomizer
 api-version: '1.20'
-description: This is a Plugin for CityBuild Servers with Plotsquared, to allow Players to customize their roads around their plots.
+description: This is a plugin for CityBuild servers with PlotSquared, allowing players to customize their roads around their plots.
 authors:
   - Terrocraft
   - Schemil053
@@ -12,4 +12,22 @@ depend:
   - WorldEdit
 commands:
   randeditmode:
+    description: Enables edit mode for customizing roads around plots.
+    usage: /randeditmode
     permission: randcustomizer.randeditmode
+permissions:
+  randcustomizer.randeditmode:
+    description: Allows using the /randeditmode command.
+    default: op
+  randcustomizer.randeditmode.bypass:
+    description: Allows bypassing restrictions in edit mode.
+    default: op
+  randcustomizer.randeditmode.add:
+    description: Allows adding blocks to edit mode.
+    default: op
+  randcustomizer.randeditmode.remove:
+    description: Allows removing blocks in edit mode.
+    default: op
+  randcustomizer.randeditmode.reload:
+    description: Allow to reload the plugin.
+    default: op

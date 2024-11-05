@@ -5,10 +5,13 @@ import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
+import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +19,8 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.Objects;
 
@@ -92,25 +97,26 @@ public class PlayerBlockListener implements Listener {
             return;
         }
         Player player = event.getPlayer();
+        ItemStack item = event.getItem();
         Material material = Material.AIR;
-        material = event.getItem().getType();
+        material = item.getType();
 
         if(RandCustomizer.getInstance().getReplaceMaterials().contains(material.name())) {
             try {
                 material = Material.valueOf(RandCustomizer.getInstance().getReplaceMaterials().getString(material.name()));
             } catch (Throwable throwable) {
-                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("error.other"));
                 return;
             }
         }
 
         if (RandCustomizer.BlockPermissions.contains("Block." + material.name())){
-           String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
+            String permission = RandCustomizer.BlockPermissions.getString("Block." + material.name());
             assert permission != null;
             if (!player.hasPermission(permission)){
                 player.sendMessage(Objects.requireNonNull(RandCustomizer.language.getString("noblock-perm")));
-               return;
-           }
+                return;
+            }
         }
 
         event.setCancelled(true);
@@ -120,6 +126,10 @@ public class PlayerBlockListener implements Listener {
         }
 
         Block clicked = event.getClickedBlock();
+
+        if (RandCustomizer.config.getBoolean("Deny-Bedrock-Break") && clicked.getType().equals(Material.BEDROCK)){
+            return;
+        }
 
         if(player.isSneaking()) {
             clicked = clicked.getRelative(event.getBlockFace());
@@ -146,7 +156,7 @@ public class PlayerBlockListener implements Listener {
             if(plot == null) {
                 continue;
             }
-            if(plot.isOwner(player.getUniqueId())) {
+            if(plot.isOwner(player.getUniqueId()) || player.hasPermission("randcustomizer.randeditmode.bypass")) {
                 can = true;
             }
         }
@@ -177,18 +187,37 @@ public class PlayerBlockListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if(event.getInventory().equals(event.getWhoClicked().getInventory())) {
+        if (event.getInventory().equals(event.getWhoClicked().getInventory())) {
             return;
         }
-        if(!RandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
+        if (!RandCustomizer.getInstance().getInEditMode().contains(event.getWhoClicked().getUniqueId())) {
             return;
         }
-        if(event.getClickedInventory() != null) {
-            if(event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+        if (event.getClickedInventory() != null) {
+            if (event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
                 return;
             }
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void InventoryClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())) {
+            ItemStack currentItem = e.getCurrentItem();
+            if (currentItem == null) {
+                return;
+            }
+
+            if (Utils.isSearchItem(currentItem)) {
+                e.setCancelled(true);
+            } else if (Utils.isMaterialItem(currentItem)) {
+                Utils.openEditInventory(p, 1);
+            } else if (Utils.isContentOfSetMaterials(currentItem)) {
+                p.getInventory().remove(currentItem);
+            }
+        }
     }
 
     @EventHandler
@@ -199,6 +228,14 @@ public class PlayerBlockListener implements Listener {
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
+        if (event.getInventory().equals(Utils.searchInventory) || event.getInventory().equals(Utils.editInv)){
+            return;
+        }
+
+        if (event.getPlayer().hasPermission("randcustomizer.bypass")) {
+            return;
+        }
+
         event.setCancelled(true);
     }
 
@@ -215,6 +252,11 @@ public class PlayerBlockListener implements Listener {
         if(!RandCustomizer.getInstance().getInEditMode().contains(event.getPlayer().getUniqueId())) {
             return;
         }
+        if (Utils.isSearchItem(event.getItemDrop().getItemStack()) || Utils.isMaterialItem(event.getItemDrop().getItemStack())){
+            event.setCancelled(true);
+            return;
+        }
+        event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
         event.setCancelled(true);
     }
 

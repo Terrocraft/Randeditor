@@ -17,8 +17,15 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>10</source>
-          <target>10</target>
+          <source>9</source>
+          <target>9</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <outputDirectory>S:\CLOUD\local\services\CB-1\plugins</outputDirectory>
         </configuration>
       </plugin>
       <plugin>
