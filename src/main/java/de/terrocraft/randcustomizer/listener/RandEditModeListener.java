@@ -40,9 +40,9 @@ public class RandEditModeListener implements Listener {
 
                 if (!searchResults.isEmpty()) {
                     Utils.openSearchInventory(player, searchResults, plugin);
-                    player.sendMessage("§aOpening search inventory...");
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.openinv"));
                 } else {
-                    player.sendMessage("§cNo matching items found.");
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.no-matching-items"));
                 }
             }
         }
@@ -127,23 +127,17 @@ public class RandEditModeListener implements Listener {
 
                     if (hotbarSlot != -1) {
                         if (player.getInventory().contains(clickedItem.getType())) {
-                            player.sendMessage("§c" + clickedItem.getType() + " is already in your hotbar!");
+                            player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.item-already-in-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
                             return;
                         }
                         player.getInventory().setItem(hotbarSlot, new ItemStack(clickedItem.getType(), amount));
-                        player.sendMessage("§aItem added to your Hotbar!");
+                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.item-added-to-hotbar").replace("%ITEM%", clickedItem.getType().toString()));
 
                     } else {
-                        player.sendMessage("§cHotbar is full, cannot add item.");
+                        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.edit-inv.hotbar-is-full"));
                     }
                 }
             }
         }
     }
-
-
-
-
-
-
 }

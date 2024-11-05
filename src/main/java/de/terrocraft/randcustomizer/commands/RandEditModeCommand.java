@@ -128,7 +128,7 @@ public class RandEditModeCommand implements TabExecutor {
     private void giveSearchItem(Player player) {
         ItemStack searchItem = new ItemBuilder().setMeterial(Material.PAPER).setTitle("§aSearch").build();
         player.getInventory().setItem(0, searchItem);
-        player.sendMessage("§aYou can now search for items by typing their name in chat while holding the Search item!");
+        player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("massage.editmode.search.giveitem"));
     }
 
     private void giveMaterialItem(Player player) {

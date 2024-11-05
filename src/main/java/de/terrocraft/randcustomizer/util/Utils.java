@@ -39,7 +39,7 @@ public class Utils {
         int endIndex = Math.min(startIndex + 54, materials.size());
 
         if (startIndex >= materials.size()) {
-            player.sendMessage("§cNo more items to display on this page.");
+            player.sendMessage(RandCustomizer.prefix + "massage.edit-inv.no-more-items-to-display");
             return;
         }
 

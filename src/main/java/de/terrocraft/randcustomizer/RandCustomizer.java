@@ -107,6 +107,13 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("message.adminmode.no-item-in-hand", "§cYou need to have an item on your cursor!");
             language.setDefault("message.adminmode.added-item", "§2%ITEM% was added to Edit-Inventory!");
             language.setDefault("message.adminmode.item-already-in-edit-inventory", "§c%ITEM% is already in the edit-inventory");
+            language.setDefault("massage.editmode.search.giveitem", "§aYou can now search for items by typing their name in chat while holding the Search item!");
+            language.setDefault("massage.editmode.search.openinv", "§aOpening search inventory...");
+            language.setDefault("massage.editmode.search.no-matching-items", "§cNo matching items found.");
+            language.setDefault("massage.edit-inv.item-already-in-hotbar", "§c%ITEM% is already in your hotbar!");
+            language.setDefault("massage.edit-inv.item-added-to-hotbar", "§a%ITEM% added to your Hotbar!");
+            language.setDefault("massage.edit-inv.hotbar-is-full", "§cHotbar is full, cannot add item.");
+            language.setDefault("massage.edit-inv.no-more-items-to-display", "§cNo more items to display on this page.");
         }
     }
 
