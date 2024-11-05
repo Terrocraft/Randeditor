@@ -39,7 +39,7 @@ public class RandEditModeCommand implements TabExecutor {
                 PlotPlayer<Player> plotPlayer = PlotPlayer.from(player);
                 Plot plot = plotPlayer.getCurrentPlot();
                 if (plot == null) {
-                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.noplot"));
+                    player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("error.noplot"));
                     return true;
                 }
 
@@ -127,6 +127,11 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
+                player.sendMessage(RandCustomizer.prefix + "§cThe /reload command is cooming soon!");
+                return true;
+
+                /*
+
                 ConfigUtil.cachemap.clear();
 
                 if (!RandCustomizer.getInstance().getDataFolder().exists()) {
@@ -146,6 +151,7 @@ public class RandEditModeCommand implements TabExecutor {
                 RandCustomizer.getInstance().setReplaceMaterials();
 
                 sender.sendMessage(RandCustomizer.prefix + "§aAll configs were reloaded.");
+                 */
             }
 
         }

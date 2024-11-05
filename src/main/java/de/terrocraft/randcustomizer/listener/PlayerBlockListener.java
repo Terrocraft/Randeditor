@@ -105,7 +105,7 @@ public class PlayerBlockListener implements Listener {
             try {
                 material = Material.valueOf(RandCustomizer.getInstance().getReplaceMaterials().getString(material.name()));
             } catch (Throwable throwable) {
-                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("fehler.other"));
+                player.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("error.other"));
                 return;
             }
         }

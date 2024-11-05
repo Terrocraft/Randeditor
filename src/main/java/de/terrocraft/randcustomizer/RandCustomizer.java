@@ -100,8 +100,8 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("prefix", "§6Rand-Edit-Mode: ");
             language.setDefault("no-perm", "§4You don't have permission to do that.");
             language.setDefault("noblock-perm", "§4You don't have permission to this Block.");
-            language.setDefault("fehler.noplot", "§4You are not standing on a Plot.");
-            language.setDefault("fehler.other", "§4Error, send a message to a Admin!");
+            language.setDefault("error.noplot", "§4You are not standing on a Plot.");
+            language.setDefault("error.other", "§4Error, send a message to a Admin!");
             language.setDefault("message.editmode.active", "§2Editmode Active!");
             language.setDefault("message.editmode.inactive", "§4Editmode Inactive!");
             language.setDefault("message.editmode.search.giveitem", "§aYou can now search for items by typing their name in chat while holding the Search item!");
