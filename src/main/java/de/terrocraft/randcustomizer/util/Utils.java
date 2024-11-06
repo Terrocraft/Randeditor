@@ -105,6 +105,12 @@ public class Utils {
         if (item == null || item.getType() != Material.BARREL) {
             return false;
         }
+        if (item == null || item.getType() != Material.BARRIER) {
+            return false;
+        }
+        if (item == null || item.getType() != Material.PAPER) {
+            return false;
+        }
         ItemMeta meta = item.getItemMeta();
         return meta != null && "§aMaterials".equals(meta.getDisplayName());
     }

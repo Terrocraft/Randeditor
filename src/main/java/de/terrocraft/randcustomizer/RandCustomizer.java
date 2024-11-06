@@ -1,5 +1,6 @@
 package de.terrocraft.randcustomizer;
 
+import com.google.common.base.Strings;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.AdminGUIListener;
@@ -107,6 +108,7 @@ public final class RandCustomizer extends JavaPlugin {
             language.setDefault("message.editmode.search.giveitem", "§aYou can now search for items by typing their name in chat while holding the Search item!");
             language.setDefault("message.editmode.search.openinv", "§aOpening search inventory...");
             language.setDefault("message.editmode.search.no-matching-items", "§cNo matching items found.");
+            language.setDefault("message.editmode.on-blocked-command", "§cThe Command %COMMAND% is deactivated in editmode!");
             language.setDefault("message.adminmode.no-item-in-hand", "§cYou need to have an item on your cursor!");
             language.setDefault("message.adminmode.added-item", "§2%ITEM% was added to Edit-Inventory!");
             language.setDefault("message.adminmode.air-remove-item", "§cYou can not remove air!");
@@ -129,6 +131,12 @@ public final class RandCustomizer extends JavaPlugin {
             config.setDefault("sound-toggle-editmode", true);
             config.setDefault("Barrier-in-hotbar", true);
             config.setDefault("Deny-Bedrock-Break", true);
+
+            List<String> list = new ArrayList<>();
+            list.add("sell hand");
+            list.add("offhand");
+
+            config.setDefault("Blocked-Commands", list);
         }
     }
 

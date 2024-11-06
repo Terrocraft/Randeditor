@@ -4,17 +4,22 @@ import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RandEditModeListener implements Listener {
 
@@ -48,6 +53,44 @@ public class RandEditModeListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        Player p = e.getPlayer();
+        String command = e.getMessage().toLowerCase();
+
+        if (RandCustomizer.getInstance().getInEditMode().equals(p)) {
+            List<String> blockedCommands = RandCustomizer.config.getStringList("Blocked-Commands");
+
+            for (String blockedCommand : blockedCommands) {
+                if (command.startsWith("/" + blockedCommand.toLowerCase())) {
+                    e.setCancelled(true);
+                    p.sendMessage(RandCustomizer.prefix + RandCustomizer.language.getString("message.editmode.on-blocked-command").replace("%COMMAND%", blockedCommand));
+                    return;
+                }
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void OnPlayerDamage(EntityDamageEvent e){
+        if (e.getEntity().getType().equals(EntityType.PLAYER)){
+            Player p = (Player) e.getEntity();
+            if (RandCustomizer.getInstance().getInEditMode().equals(p)){
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void OnPlayerDeath(EntityDeathEvent e){
+        if (e.getEntity().getType().equals(EntityType.PLAYER)){
+            Player p = (Player) e.getEntity();
+            if (RandCustomizer.getInstance().getInEditMode().equals(p)){
+                e.getDrops().clear();
+            }
+        }
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
