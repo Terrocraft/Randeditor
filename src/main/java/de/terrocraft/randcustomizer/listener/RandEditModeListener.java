@@ -58,7 +58,7 @@ public class RandEditModeListener implements Listener {
         Player p = e.getPlayer();
         String command = e.getMessage().toLowerCase();
 
-        if (RandCustomizer.getInstance().getInEditMode().equals(p)) {
+        if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())) {
             List<String> blockedCommands = RandCustomizer.config.getStringList("Blocked-Commands");
 
             for (String blockedCommand : blockedCommands) {
@@ -76,7 +76,7 @@ public class RandEditModeListener implements Listener {
     public void OnPlayerDamage(EntityDamageEvent e){
         if (e.getEntity().getType().equals(EntityType.PLAYER)){
             Player p = (Player) e.getEntity();
-            if (RandCustomizer.getInstance().getInEditMode().equals(p)){
+            if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())){
                 e.setCancelled(true);
             }
         }
@@ -86,7 +86,7 @@ public class RandEditModeListener implements Listener {
     public void OnPlayerDeath(EntityDeathEvent e){
         if (e.getEntity().getType().equals(EntityType.PLAYER)){
             Player p = (Player) e.getEntity();
-            if (RandCustomizer.getInstance().getInEditMode().equals(p)){
+            if (RandCustomizer.getInstance().getInEditMode().contains(p.getUniqueId())){
                 e.getDrops().clear();
             }
         }
