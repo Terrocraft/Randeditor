@@ -3,11 +3,7 @@ package de.terrocraft.randcustomizer.commands;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
-import de.terrocraft.randcustomizer.util.ConfigUtil;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
-import de.terrocraft.randcustomizer.util.SConfig;
-import de.terrocraft.randcustomizer.util.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -16,7 +12,6 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

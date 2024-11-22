@@ -1,13 +1,12 @@
 package de.terrocraft.randcustomizer;
 
-import com.google.common.base.Strings;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.commands.RandEditModeCommand;
 import de.terrocraft.randcustomizer.listener.AdminGUIListener;
 import de.terrocraft.randcustomizer.listener.PlayerBlockListener;
 import de.terrocraft.randcustomizer.listener.RandEditModeListener;
-import de.terrocraft.randcustomizer.util.ConfigUtil;
-import de.terrocraft.randcustomizer.util.SConfig;
+import de.terrocraft.randcustomizer.util.Config.ConfigUtil;
+import de.terrocraft.randcustomizer.util.Config.SConfig;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

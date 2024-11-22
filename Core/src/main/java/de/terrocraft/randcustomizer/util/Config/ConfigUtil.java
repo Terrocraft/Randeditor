@@ -1,4 +1,4 @@
-package de.terrocraft.randcustomizer.util;
+package de.terrocraft.randcustomizer.util.Config;
 
 import de.terrocraft.randcustomizer.RandCustomizer;
 

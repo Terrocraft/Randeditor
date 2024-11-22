@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RandCustomizer.iml" filepath="$PROJECT_DIR$/RandCustomizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Core/RandCustomizer (1).iml" filepath="$PROJECT_DIR$/Core/RandCustomizer (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Randeditor.iml" filepath="$PROJECT_DIR$/Randeditor.iml" />
     </modules>
   </component>
 </project>
