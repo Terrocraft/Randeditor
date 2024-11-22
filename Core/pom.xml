@@ -116,5 +116,10 @@
       <version>3.0.2</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>de.terrocraft</groupId>
+      <artifactId>API</artifactId>
+      <version>1.0.3-Alpha</version>
+    </dependency>
   </dependencies>
 </project>

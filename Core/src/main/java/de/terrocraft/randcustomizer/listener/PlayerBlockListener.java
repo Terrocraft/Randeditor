@@ -3,15 +3,15 @@ package de.terrocraft.randcustomizer.listener;
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.plot.Plot;
 import com.plotsquared.core.plot.PlotArea;
+import de.terrocraft.Events.PlayerEditRandBlockEvent;
 import de.terrocraft.randcustomizer.RandCustomizer;
 import de.terrocraft.randcustomizer.util.ConverterUtil;
 import de.terrocraft.randcustomizer.util.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +20,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.Objects;
 
@@ -121,11 +120,18 @@ public class PlayerBlockListener implements Listener {
 
         event.setCancelled(true);
 
+        Block clicked = event.getClickedBlock();
+
+        PlayerEditRandBlockEvent e = new PlayerEditRandBlockEvent(player, clicked, material);
+        Bukkit.getPluginManager().callEvent(e);
+        if (e.isCancelled()) {
+            return;
+        }
+        material = e.getBlockMaterial();
+
         if(!material.isBlock()) {
             return;
         }
-
-        Block clicked = event.getClickedBlock();
 
         if (RandCustomizer.config.getBoolean("Deny-Bedrock-Break") && clicked.getType().equals(Material.BEDROCK)){
             return;
