@@ -3,6 +3,7 @@ package de.terrocraft.randcustomizer.commands;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import de.terrocraft.randcustomizer.RandCustomizer;
+import de.terrocraft.randcustomizer.util.Config.ConfigUtil;
 import de.terrocraft.randcustomizer.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -122,31 +123,10 @@ public class RandEditModeCommand implements TabExecutor {
                     return true;
                 }
 
-                player.sendMessage(RandCustomizer.prefix + "§cThe /reload command is cooming soon!");
-                return true;
-
-                /*
-
-                ConfigUtil.cachemap.clear();
-
-                if (!RandCustomizer.getInstance().getDataFolder().exists()) {
-                    RandCustomizer.getInstance().getDataFolder().mkdirs();
-                }
-
-                Bukkit.getLogger().info("Loading configuration files...");
-
-                RandCustomizer.config = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "config.yml"), "config");
-                RandCustomizer.materials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "materials.yml"), "materials");
-                RandCustomizer.language = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "language.yml"), "language");
-                RandCustomizer.replaceMaterials = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "replace-materials.yml"), "replace-materials");
-                RandCustomizer.BlockPermissions = new SConfig(new File(RandCustomizer.getInstance().getDataFolder(), "BlockPermissions.yml"), "BlockPermissions");
-
-                RandCustomizer.getInstance().setlanguage();
-                RandCustomizer.getInstance().setConfig();
-                RandCustomizer.getInstance().setReplaceMaterials();
-
-                sender.sendMessage(RandCustomizer.prefix + "§aAll configs were reloaded.");
-                 */
+                ConfigUtil.cachemap.forEach((name, config) -> {
+                    config.delete();
+                    ConfigUtil.getConfig(name);
+                });
             }
 
         }
