@@ -6,7 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="RandCustomizer (1)" />
+        <module name="randcustomizer (1)" />
+        <module name="API" />
       </profile>
     </annotationProcessing>
   </component>

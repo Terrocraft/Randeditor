@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/API/API.iml" filepath="$PROJECT_DIR$/API/API.iml" />
       <module fileurl="file://$PROJECT_DIR$/RandCustomizer.iml" filepath="$PROJECT_DIR$/RandCustomizer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Core/RandCustomizer (1).iml" filepath="$PROJECT_DIR$/Core/RandCustomizer (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/Randeditor.iml" filepath="$PROJECT_DIR$/Randeditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Core/randcustomizer (1).iml" filepath="$PROJECT_DIR$/Core/randcustomizer (1).iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,11 @@
+de\terrocraft\randcustomizer\util\Utils.class
+de\terrocraft\randcustomizer\util\AdminInventory\AdminMenu.class
+de\terrocraft\randcustomizer\util\ItemBuilder.class
+de\terrocraft\randcustomizer\listener\AdminGUIListener.class
+de\terrocraft\randcustomizer\util\SConfig.class
+de\terrocraft\randcustomizer\RandCustomizer.class
+de\terrocraft\randcustomizer\util\ConfigUtil.class
+de\terrocraft\randcustomizer\listener\RandEditModeListener.class
+de\terrocraft\randcustomizer\util\ConverterUtil.class
+de\terrocraft\randcustomizer\listener\PlayerBlockListener.class
+de\terrocraft\randcustomizer\commands\RandEditModeCommand.class
